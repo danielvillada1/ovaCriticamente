@@ -289,7 +289,7 @@ var $=function(i){return document.getElementById(i)};
 var S={pre:"",seen:{},res:[0,0,0,0,0],att:[0,0,0,0,0],done:false,cur:0,r:0};
 var secs=[].slice.call(document.querySelectorAll("section"));
 function go(n){
- S.cur=n;secs.forEach(function(s,i){s.hidden=i!==n});
+ S.cur=n;updPts();secs.forEach(function(s,i){s.hidden=i!==n});
  $("dots").innerHTML="";
  for(var i=0;i<8;i++){var d=document.createElement("i");d.className=i===n?"on":(i<n?"done":"");$("dots").appendChild(d)}
  $("dots").style.visibility=n>7?"hidden":"visible";$("dots").setAttribute("aria-label","Pantalla "+(n+1)+" de 8");
@@ -321,12 +321,15 @@ var pre=["Comparto de inmediato si me parece importante.","Leo los comentarios p
 function tot(){return S.res.reduce(function(a,b){return a+b},0)}
 S.tab=[0,0,0,0,1];S.ok=[0,0,0,0,0];
 function done(i,first){S.ok[i]=1;S.res[i]=first?10:5;hdr(i)}
+function seen(i){return i>3||Object.keys(S.vw[i]).length>=L[i].c.length}
+function updPts(){for(var q=0;q<5;q++){var e=$("s"+(q+1)).querySelector(".pt");e.textContent="Puntos acumulados: "+tot()+"/50 · Este módulo: "+S.res[q]}}
 function hdr(i){
  var s=$("s"+(i+1)),tb=s.querySelector(".tabs");tb.innerHTML="";
  (i<4?["📘 Aprende","🧪 Practica"]:["🎯 Reto final"]).forEach(function(t,k){
-  var kk=i<4?k:1,b=document.createElement("button");b.className="tab";b.textContent=t+(kk===1&&S.ok[i]?" ✔":"");b.setAttribute("aria-pressed",S.tab[i]===kk);b.onclick=function(){S.tab[i]=kk;rs(i)};tb.appendChild(b)});
+  var kk=i<4?k:1,b=document.createElement("button");b.className="tab";b.textContent=t+(kk===1&&S.ok[i]?" ✔":"");b.setAttribute("aria-pressed",S.tab[i]===kk);var lock=kk===1&&i<4&&!S.ok[i]&&!seen(i);if(lock){b.textContent="🔒 "+t;b.setAttribute("aria-disabled","true")}
+  b.onclick=function(){if(lock){S.tab[i]=0;S.lk[i]=1}else S.tab[i]=kk;rs(i)};tb.appendChild(b)});
  s.querySelector(".nx").disabled=!S.ok[i];
- s.querySelector(".pt").textContent="Puntos: "+tot()+"/50";
+ updPts();
 }
 function rs(i){
  var s=$("s"+(i+1)),p=s.querySelector(".pane");s.querySelector("h2").textContent=NAME[i];hdr(i);
@@ -361,12 +364,13 @@ var DET=[
  D("Ver cómo se conectan las partes de un problema y sus efectos.","dormir poco afecta la atención, las notas, el ánimo y la salud.","dibuja un mapa de causas y efectos antes de decidir."),
  D("Una posible explicación que puedes poner a prueba.","«Si duermo 8 horas, mejoraré en los parciales», y lo pruebas durante una semana.","formula «si… entonces…» y define cómo la comprobarías.")]];
 var SRC=["Elder y Paul (2002); Facione (2007)","Facione (2007); Bordes Solanas (2011)","Wilson et al. (2011)","Toulmin (2007)",""];
-S.vw=[{},{},{},{},{}];S.sel=[-1,-1,-1,-1,-1];
+S.vw=[{},{},{},{},{}];S.lk=[0,0,0,0,0];S.sel=[-1,-1,-1,-1,-1];
 function lrn(p,i){
  var c=L[i].c,n=c.length,v=Object.keys(S.vw[i]).length,k=S.sel[i];
- p.innerHTML='<div class="irow">'+ill(i)+'<p>'+L[i].i+'</p></div><p class="sm muted">👆 Toca cada tarjeta para ver más información. Exploradas: <b>'+v+'/'+n+'</b></p><div class="cards" style="grid-template-columns:repeat(auto-fit,minmax(190px,1fr))">'+c.map(function(x,j){return '<button class="card" aria-pressed="'+(j===k)+'" data-c="'+j+'" style="border-left-color:'+COL[j%5]+'"><b>'+(S.vw[i][j]?"✔ ":"")+x[0]+'</b><small>'+x[1]+'</small></button>'}).join("")+'</div>'+(k>-1?'<div class="detail" id="dt'+i+'" aria-live="polite"><b>'+c[k][0]+'</b><p>'+DET[i][k]+'</p></div>':'')+'<div class="detail"><b>🔑 Claves</b><p>'+L[i].k+'</p></div><p class="sm muted">📚 Fuentes: '+SRC[i]+'. Lista completa en el apartado Referencias del menú.</p><div class="foot" style="justify-content:flex-start">'+(i<2&&v===n?'<button class="btn" id="ra'+i+'">🧩 Reto relámpago</button>':'')+'<button class="btn blue" id="gp'+i+'">Ir a practicar →</button></div>';
+ p.innerHTML='<div class="irow">'+ill(i)+'<p>'+L[i].i+'</p></div><p class="sm muted">👆 Toca cada tarjeta para ver más información. Exploradas: <b>'+v+'/'+n+'</b></p>'+(S.lk[i]&&v<n&&!S.ok[i]?'<div class="fb info" role="alert">🔒 Para pasar a Practica primero toca todas las tarjetas ('+v+' de '+n+').</div>':'')+'<div class="cards" style="grid-template-columns:repeat(auto-fit,minmax(190px,1fr))">'+c.map(function(x,j){return '<button class="card" aria-pressed="'+(j===k)+'" data-c="'+j+'" style="border-left-color:'+COL[j%5]+'"><b>'+(S.vw[i][j]?"✔ ":"")+x[0]+'</b><small>'+x[1]+'</small></button>'}).join("")+'</div>'+(k>-1?'<div class="detail" id="dt'+i+'" aria-live="polite"><b>'+c[k][0]+'</b><p>'+DET[i][k]+'</p></div>':'')+'<div class="detail"><b>🔑 Claves</b><p>'+L[i].k+'</p></div><p class="sm muted">📚 Fuentes: '+SRC[i]+'. Lista completa en el apartado Referencias del menú.</p><div class="foot" style="justify-content:flex-start">'+(i<2&&v===n?'<button class="btn" id="ra'+i+'">🧩 Reto relámpago</button>':'')+'<button class="btn blue" id="gp'+i+'"'+(v<n&&!S.ok[i]?' disabled aria-disabled="true"':'')+'>'+(v<n&&!S.ok[i]?'🔒 Toca todas las tarjetas para practicar':'Ir a practicar →')+'</button></div>';
  [].forEach.call(p.querySelectorAll("[data-c]"),function(x){x.onclick=function(){var j=+x.dataset.c;S.sel[i]=j;S.vw[i][j]=1;lrn(p,i);if(i<2&&!S.ana[i]&&Object.keys(S.vw[i]).length===L[i].c.length)setTimeout(function(){openAna(i)},400);var nb=p.querySelector('[data-c="'+j+'"]');if(nb)nb.focus({preventScroll:true});var d=$("dt"+i);if(d)d.scrollIntoView({block:"nearest"})}});
  $("gp"+i).onclick=function(){S.tab[i]=1;rs(i)};if($("ra"+i))$("ra"+i).onclick=function(){openAna(i)};
+ hdr(i);
 }
 /* Reto relámpago: anagrama al revisar todas las tarjetas de Preguntar y Analizar */
 var WW=["",""];/* Opcional: enlace de inserción de Wordwall (https://wordwall.net/...) para Preguntar y Analizar. Vacío = anagrama integrado. */
