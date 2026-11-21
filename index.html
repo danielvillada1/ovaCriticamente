@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>OVA · CríticaMente</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..800&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#e9effb;--card:#fff;--ink:#1c2541;--muted:#4a5578;--nav:#14396b;--pri:#5b4fcf;--sec:#ddd5fb;--teal:#0f8f88;--ok:#2e8b4a;--okbg:#e3f5e8;--bad:#c93a55;--badbg:#fde6eb;--blue:#2563eb;--line:#cfd8ee;--warn:#fff3c4;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1527;--card:#192342;--ink:#eef1fb;--muted:#b6c0dc;--nav:#0a2347;--sec:#3b3578;--line:#34416b;--okbg:#17382a;--badbg:#42202b;--warn:#4a4118;--pri:#8f84f5;--teal:#34c4bb;--ok:#59c77c;--bad:#ff7d93}}
+:root[data-theme="dark"]{--bg:#0e1527;--card:#192342;--ink:#eef1fb;--muted:#b6c0dc;--nav:#0a2347;--sec:#3b3578;--line:#34416b;--okbg:#17382a;--badbg:#42202b;--warn:#4a4118;--pri:#8f84f5;--teal:#34c4bb;--ok:#59c77c;--bad:#ff7d93}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.5 var(--fb);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:12px}
+h1,h2,h3,button,.tag{font-family:var(--fh)}
+button{font:inherit;cursor:pointer;color:inherit}
+:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+p{margin:0}h3{margin:0}
+.app{display:flex;width:100%;max-width:1040px;min-height:620px;background:var(--card);border-radius:20px;overflow:hidden;border:2px solid var(--nav)}
+nav{width:84px;background:var(--nav);display:flex;flex-direction:column;gap:6px;padding:14px 8px;flex:none}
+nav button{background:none;border:0;color:#cfe0ff;border-radius:12px;padding:10px 2px;font-size:.72rem;font-weight:600;display:flex;flex-direction:column;align-items:center;gap:2px;min-height:56px}
+nav button span{font-size:1.4rem}
+nav button[aria-current="true"]{background:var(--blue);color:#fff}
+main{flex:1;padding:18px 26px 22px;display:flex;flex-direction:column;min-width:0}
+.top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.tag{background:var(--blue);color:#fff;font-weight:700;font-size:.78rem;padding:3px 14px;border-radius:99px}
+.dots{display:flex;gap:7px}.dots i{width:10px;height:10px;border-radius:50%;background:var(--line)}.dots i.on{background:var(--blue)}.dots i.done{background:var(--pri)}
+section{flex:1;display:flex;flex-direction:column;gap:14px}section[hidden]{display:none}
+h1{font-size:clamp(2.1rem,6vw,3.2rem);line-height:1.05;margin:0;font-weight:800}
+h1 em{font-style:normal;display:inline-block;background:var(--blue);color:#fff;padding:2px 18px;border-radius:40px;margin-top:6px}
+h2{margin:0;font-size:1.4rem;font-weight:700;background:var(--sec);padding:6px 18px;border-radius:12px;align-self:flex-start}
+.sub{background:var(--warn);display:inline-block;padding:2px 12px;border-radius:8px;font-weight:600}
+.muted{color:var(--muted)}.sm{font-size:.88rem}
+.btn{border:0;border-radius:99px;padding:12px 28px;font-weight:700;color:#fff;background:var(--teal);min-height:46px}
+.btn.blue{background:var(--blue)}.btn.red{background:var(--bad)}.btn:disabled{opacity:.45;cursor:not-allowed}
+.foot{margin-top:auto;display:flex;justify-content:flex-end;gap:12px;align-items:center;padding-top:6px;flex-wrap:wrap}
+.hero{display:grid;grid-template-columns:1.2fr 1fr;gap:22px;align-items:center}
+.brain{font-size:6rem;text-align:center;line-height:1}
+.box{border:2px solid var(--line);border-radius:16px;padding:14px 16px}
+.obj{list-style:none;padding:0;margin:8px 0 0;display:grid;gap:6px}
+.obj li::before{content:"🎯 "}
+.tabs{display:flex;gap:8px;flex-wrap:wrap}
+.tab{border:2px solid var(--line);background:var(--card);border-radius:99px;padding:8px 16px;font-weight:600;font-size:.88rem;min-height:42px}
+.tab[aria-pressed="true"]{background:var(--pri);border-color:var(--pri);color:#fff}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}
+.card{border:2px solid var(--line);border-left-width:6px;border-radius:14px;padding:12px;text-align:left;background:var(--card)}
+.card .ic{font-size:1.8rem}.card b{display:block;font-family:var(--fh)}.card small{color:var(--muted);display:block;line-height:1.3}
+.card[aria-pressed="true"]{box-shadow:0 0 0 4px var(--sec)}
+.detail{background:var(--sec);border-radius:14px;padding:14px 18px;display:grid;gap:6px}
+.detail b{font-family:var(--fh)}
+.posts{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.post{border:2px solid var(--line);border-radius:14px;background:var(--card);text-align:left;padding:0;overflow:hidden}
+.post[aria-pressed="true"]{border-color:var(--pri);box-shadow:0 0 0 4px var(--sec)}
+.post .h{padding:8px 12px;font:700 .82rem var(--fh)}
+.post .img{height:60px;display:grid;place-items:center;font-size:2.2rem}
+.post p{padding:4px 12px 8px;font-size:.85rem}.post .m{padding:0 12px 8px;font-size:.78rem;color:var(--muted)}
+.crit{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:8px}
+.crit div{border-radius:10px;padding:8px 10px;font-size:.84rem;background:var(--card);border:2px solid var(--line)}
+.crit .ok{border-color:var(--ok)}.crit .warn{border-color:#d9a400}.crit .bad{border-color:var(--bad)}
+.fb{border-radius:14px;padding:12px 16px;font-weight:600}
+.fb.ok{background:var(--okbg);color:var(--ok)}.fb.bad{background:var(--badbg);color:var(--bad)}.fb.info{background:var(--sec)}
+.wa{background:#0b6b5a;border-radius:14px;padding:10px 12px;color:#fff}
+.wa .msg{background:#fff;color:#1c2541;border-radius:10px;padding:8px 12px;margin-top:6px;font-size:.92rem}
+.opt{display:flex;gap:10px;align-items:center;padding:10px 12px;border-radius:12px;border:2px solid var(--line);margin:6px 0;cursor:pointer}
+.opt:has(input:checked){border-color:var(--pri);background:var(--sec)}
+.opt input{width:20px;height:20px;accent-color:var(--pri)}
+.chips,.slots{display:flex;gap:8px;flex-wrap:wrap}
+.chip,.slot{border-radius:10px;min-height:44px;padding:8px 12px;font-weight:600;font-size:.85rem;border:2px dashed var(--line);background:var(--card)}
+.chip{border:2px solid var(--pri);background:var(--sec)}.chip:disabled{opacity:.3}
+.slotw{display:flex;flex-direction:column;align-items:center;gap:2px;flex:1;min-width:120px;font-size:.8rem;color:var(--muted)}
+.slot{width:100%}.slot.ok{border:2px solid var(--ok);background:var(--okbg)}.slot.bad{border:2px solid var(--bad);background:var(--badbg)}
+.win{background:var(--okbg);border-radius:16px;padding:12px;text-align:center}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.ba{display:grid;grid-template-columns:1fr auto 1fr;gap:10px}
+.ba div{border-radius:14px;padding:12px;font-size:.9rem}.ba .a{background:var(--badbg)}.ba .b{background:var(--okbg)}.ba .arr{align-self:center;padding:0;font-size:1.6rem;color:var(--pri)}
+.learned{background:var(--warn);border-radius:14px;padding:12px 18px}
+.learned ul{list-style:none;padding:0;margin:6px 0 0}.learned li::before{content:"✔ ";color:var(--pri);font-weight:800}
+.score{font:800 2.2rem var(--fh);color:var(--pri)}
+.chk{display:flex;gap:10px;align-items:center;padding:4px 0}.chk input{width:20px;height:20px;accent-color:var(--pri)}
+textarea,input[type=text]{width:100%;min-height:76px;border:2px solid var(--line);border-radius:12px;padding:10px;font:inherit;background:var(--card);color:var(--ink);resize:vertical}
+.vid{position:relative;aspect-ratio:16/9;width:100%;max-width:720px;margin:0 auto;border-radius:16px;overflow:hidden;background:#000}.vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.yn{display:flex;gap:8px}.yn .opt{flex:1;margin:0;justify-content:center}.nm{min-height:44px!important;margin-bottom:8px}
+.wall{display:grid;gap:8px;max-height:230px;overflow:auto;margin-top:10px}.wall .m{background:var(--sec);border-radius:12px;padding:8px 12px;font-size:.9rem}.note{background:var(--warn);border-radius:12px;padding:8px 12px;font-size:.82rem;margin-top:8px}
+.sel{border:2px solid var(--line);border-radius:10px;padding:8px;background:var(--card);color:var(--ink);font:inherit;min-height:44px;width:100%}
+.row{display:grid;grid-template-columns:1.5fr 1fr 28px;gap:10px;align-items:center;margin:8px 0;padding-bottom:8px;border-bottom:1px solid var(--line)}
+@media (max-width:720px){.row{grid-template-columns:1fr 28px}.row span.sm{grid-column:1/-1}}
+details.refs{border:2px solid var(--line);border-radius:14px;padding:10px 14px}
+details.refs summary{font:600 1rem var(--fh);cursor:pointer;min-height:32px}
+details.refs p{margin:8px 0;padding-left:1.6em;text-indent:-1.6em;font-size:.86rem;overflow-wrap:anywhere}
+details.refs a{color:var(--blue)}
+.refsec p{margin:8px 0;padding-left:1.6em;text-indent:-1.6em;font-size:.9rem;overflow-wrap:anywhere}.refsec a{color:var(--blue)}
+.vfac{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;text-align:center;padding:16px;color:#fff;background:linear-gradient(135deg,#14396b,#5b4fcf)}
+a.btn{text-decoration:none;display:inline-flex;align-items:center}
+.mdl{position:fixed;inset:0;background:rgba(10,20,40,.6);display:grid;place-items:center;padding:16px;z-index:6}.mdl[hidden]{display:none}
+.mdl .in{background:var(--card);border-radius:18px;padding:22px;max-width:480px;width:100%;max-height:90vh;overflow:auto}
+.tl{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}
+.lt{min-width:40px;height:44px;border-radius:10px;border:2px solid var(--pri);background:var(--sec);font:700 1.1rem var(--fh);display:inline-grid;place-items:center;padding:0 6px}
+button.lt:disabled{opacity:.3;cursor:default}.lt.sl{border-style:dashed;background:var(--card)}
+.irow{display:flex;gap:14px;align-items:center}.ill{flex:none;width:190px}.ill svg{width:100%;height:auto;display:block;border-radius:18px}
+.av{width:64px;height:64px;border-radius:50%;background:var(--nav);color:#fff;display:grid;place-items:center;margin:0 auto 8px;font:800 1.3rem var(--fh)}
+.perfil{position:fixed;inset:0;background:rgba(10,20,40,.6);display:grid;place-items:center;padding:16px;z-index:5}.perfil[hidden]{display:none}
+.perfil div{background:var(--card);border-radius:18px;padding:22px;max-width:360px;width:100%}
+@media (max-width:720px){
+ body{padding:0;align-items:stretch}
+ .app{flex-direction:column-reverse;border-radius:0;border:0;min-height:100vh}
+ nav{width:100%;flex-direction:row;justify-content:space-around;padding:6px;overflow-x:auto}nav button{flex:1 0 auto;min-width:58px;min-height:52px;padding:6px;font-size:.66rem}.irow{flex-direction:column;text-align:center}.ill{width:min(220px,70%)}
+ main{padding:14px 16px}.hero,.cols{grid-template-columns:1fr}.brain{font-size:4rem}
+ .posts{grid-template-columns:1fr}.ba{grid-template-columns:1fr}.ba .arr{transform:rotate(90deg);justify-self:center}
+}
+
+.box:has(input[name="fl"]) .opt{margin:0 0 16px;padding:14px 18px}.box:has(input[name="fl"]) p.sm{margin-bottom:14px}.box:has(input[name="fl"]) .btn{margin-top:6px}.box:has(input[name="fl"]) .fb{margin-top:6px}
+/* ===== Renovación visual CríticaMente (solo estilos) ===== */
+:root{--fh:"Bricolage Grotesque",system-ui,sans-serif;--fb:"Source Sans 3",system-ui,sans-serif;--nav2:#0a1d45;--pribtn:#5b4fcf;--tealbtn:#0b7f79;--badbtn:#c93a55;--amber:#f5b81c;--sh:0 1px 2px rgba(20,40,90,.07),0 10px 26px -14px rgba(20,40,90,.35);--grid:rgba(37,99,235,.07);--g1:rgba(124,58,237,.16);--g2:rgba(15,143,136,.15);--ring:rgba(91,79,207,.09)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b1224;--card:#151e3b;--nav:#0b1c40;--nav2:#050d22;--line:#2d3a63;--pribtn:#6d61e6;--sh:0 1px 2px rgba(0,0,0,.4),0 12px 28px -14px rgba(0,0,0,.7);--grid:rgba(143,132,245,.07);--g1:rgba(124,58,237,.22);--g2:rgba(52,196,187,.12);--ring:rgba(143,132,245,.12)}}
+:root[data-theme="dark"]{--bg:#0b1224;--card:#151e3b;--nav:#0b1c40;--nav2:#050d22;--line:#2d3a63;--pribtn:#6d61e6;--sh:0 1px 2px rgba(0,0,0,.4),0 12px 28px -14px rgba(0,0,0,.7);--grid:rgba(143,132,245,.07);--g1:rgba(124,58,237,.22);--g2:rgba(52,196,187,.12);--ring:rgba(143,132,245,.12)}
+body{font-size:1.0625rem;line-height:1.6;letter-spacing:.003em;background:radial-gradient(820px 520px at 6% -8%,var(--g1),transparent 62%),radial-gradient(760px 520px at 100% 104%,var(--g2),transparent 62%),linear-gradient(var(--grid) 1px,transparent 1px) 0 0/34px 34px,linear-gradient(90deg,var(--grid) 1px,transparent 1px) 0 0/34px 34px,var(--bg);background-attachment:fixed}
+h1,h2,h3{letter-spacing:-.015em;line-height:1.15}
+h1{letter-spacing:-.035em;font-weight:800}
+h1 em{background:linear-gradient(120deg,var(--blue),#7c3aed)}
+h3{font-size:1.15rem;font-weight:700}
+b,strong{font-weight:700}
+.app{border:0;border-radius:26px;box-shadow:0 0 0 2px var(--nav),0 28px 60px -24px rgba(10,29,69,.55),0 6px 0 -2px var(--pri)}
+nav{background:linear-gradient(180deg,var(--nav),var(--nav2));gap:8px;padding:16px 9px}
+nav button{font-family:var(--fh);letter-spacing:.02em;font-weight:600;border-radius:14px;transition:background .2s,transform .2s,box-shadow .2s;position:relative}
+nav button:hover{background:rgba(255,255,255,.1);color:#fff;transform:translateY(-1px)}
+nav button[aria-current="true"]{background:linear-gradient(135deg,var(--blue),#7c3aed);box-shadow:0 8px 18px -8px rgba(124,58,237,.9),inset 0 0 0 1px rgba(255,255,255,.25)}
+nav button[aria-current="true"]::after{content:"";position:absolute;left:-9px;top:22%;bottom:22%;width:4px;border-radius:0 4px 4px 0;background:var(--amber)}
+main{position:relative;isolation:isolate;overflow:hidden;padding:20px 30px 24px}
+main::before{content:"";position:absolute;z-index:-1;right:-70px;top:-90px;width:250px;height:250px;border-radius:50%;border:26px solid var(--ring);pointer-events:none}
+main::after{content:"";position:absolute;z-index:-1;right:-6px;top:128px;width:20px;height:110px;border-radius:12px;background:var(--ring);transform:rotate(-38deg);pointer-events:none}
+.top{padding-bottom:12px;border-bottom:2px dashed var(--line);margin-bottom:16px}
+.tag{background:linear-gradient(120deg,var(--blue),#7c3aed);letter-spacing:.05em;text-transform:uppercase;font-size:.72rem;padding:5px 16px;box-shadow:0 6px 14px -6px rgba(91,79,207,.8)}
+.dots i{width:10px;height:10px;transition:width .3s,background .3s}.dots i.on{width:28px;border-radius:99px;background:linear-gradient(90deg,var(--blue),#7c3aed)}.dots i.done{background:var(--pri)}
+section:not([hidden]){animation:enter .45s cubic-bezier(.2,.7,.2,1) backwards}
+@keyframes enter{from{opacity:0;transform:translateY(10px)}}
+@keyframes pop{from{opacity:0;transform:translateY(6px) scale(.98)}}
+h2{font-size:1.5rem;font-weight:800;background:linear-gradient(100deg,var(--sec),transparent 135%);border-left:6px solid var(--pri);border-radius:6px 16px 16px 6px;padding:8px 20px 8px 16px}
+.sub,.learned{background:linear-gradient(transparent 55%,var(--warn) 55%)}
+.learned{background:var(--warn)}
+.muted{color:var(--muted)}.sm{font-size:.92rem;line-height:1.5}
+p{max-width:75ch}
+.btn{background:linear-gradient(135deg,var(--tealbtn),#13a59c);box-shadow:0 5px 0 rgba(0,0,0,.22),0 12px 20px -10px rgba(0,0,0,.4);font-family:var(--fh);letter-spacing:.02em;transition:transform .15s,box-shadow .15s,filter .2s}
+.btn.blue{background:linear-gradient(135deg,#1d4ed8,#6d4ae0)}.btn.red{background:linear-gradient(135deg,var(--badbtn),#e5527a)}
+.btn:hover:not(:disabled){transform:translateY(-2px);filter:brightness(1.07)}.btn:active:not(:disabled){transform:translateY(3px);box-shadow:0 2px 0 rgba(0,0,0,.22)}
+.btn:disabled{box-shadow:none}
+.tabs{gap:8px;padding:5px;background:var(--sec);border-radius:99px;align-self:flex-start;width:fit-content;max-width:100%}
+.tab{border:0;background:transparent;font-family:var(--fh);font-weight:700;letter-spacing:.01em;transition:background .2s,color .2s,box-shadow .2s;padding:8px 18px}
+.tab:hover{background:var(--card)}
+.tab[aria-pressed="true"]{background:linear-gradient(135deg,var(--pribtn),#7c3aed);color:#fff;box-shadow:0 6px 14px -6px rgba(91,79,207,.9)}
+.box{background:var(--card);border:1.5px solid var(--line);border-radius:20px;padding:16px 18px;box-shadow:var(--sh)}
+.card{border:1.5px solid var(--line);border-left-width:6px;border-radius:16px;box-shadow:var(--sh);transition:transform .2s,box-shadow .2s,background .2s;padding:13px 14px}
+.card:hover{transform:translateY(-3px);box-shadow:0 14px 26px -14px rgba(20,40,90,.5)}
+.card b{font-size:1.02rem;letter-spacing:-.005em;margin-bottom:2px}.card small{font-size:.88rem;line-height:1.4}
+.card[aria-pressed="true"]{background:linear-gradient(135deg,var(--card),var(--sec));box-shadow:0 0 0 3px var(--pri),var(--sh)}
+.detail{background:linear-gradient(120deg,var(--sec),var(--card) 160%);border-radius:16px;padding:16px 20px;box-shadow:inset 6px 0 0 var(--pri);line-height:1.6}
+.detail[id]{animation:pop .3s ease backwards}
+.learned{border-radius:16px;box-shadow:var(--sh)}
+.irow{gap:20px}.ill{width:190px}.ill svg{box-shadow:0 14px 28px -14px rgba(10,29,69,.6);transition:transform .3s}.ill svg:hover{transform:rotate(-2deg) scale(1.03)}
+.opt{border:1.5px solid var(--line);border-radius:14px;background:var(--card);transition:border-color .2s,background .2s,transform .15s,box-shadow .2s}
+.opt:hover{border-color:var(--pri);transform:translateX(3px)}
+.opt:has(input:checked){background:var(--sec);box-shadow:0 0 0 2px var(--pri)}
+.chip,.slot{border-radius:12px}.chip{background:linear-gradient(135deg,var(--sec),var(--card))}
+.lt{box-shadow:0 3px 0 var(--pri);transition:transform .15s}button.lt:not(:disabled):hover{transform:translateY(-2px)}
+.fb{border-radius:16px;border-left:6px solid currentColor;animation:pop .3s ease backwards;line-height:1.5}
+.fb.info{border-left-color:var(--pri)}
+.wa{background:linear-gradient(160deg,#0b6b5a,#094e43);border-radius:18px;padding:12px 14px;box-shadow:var(--sh)}
+.wa .msg{border-radius:4px 14px 14px 14px;box-shadow:0 2px 0 rgba(0,0,0,.12);position:relative}
+.post{border:1.5px solid var(--line);border-radius:18px;box-shadow:var(--sh);transition:transform .2s,box-shadow .2s}
+.post:hover{transform:translateY(-3px)}
+.post .h{background:linear-gradient(100deg,var(--sec),transparent);letter-spacing:.01em}
+.post .img{background:radial-gradient(circle at 30% 30%,var(--sec),transparent 70%)}
+.post[aria-pressed="true"]{border-color:var(--pri);box-shadow:0 0 0 3px var(--pri),var(--sh)}
+.crit div{border-radius:12px;border-width:1.5px;border-left-width:6px;box-shadow:var(--sh)}
+.crit .ok{background:var(--okbg)}.crit .bad{background:var(--badbg)}.crit .warn{background:var(--warn)}
+.win{border-radius:20px;box-shadow:var(--sh)}
+.ba div{border-radius:16px}.ba .arr{color:var(--pri)}
+.score{font-family:var(--fh);letter-spacing:-.03em;background:linear-gradient(120deg,var(--pri),var(--blue));-webkit-background-clip:text;background-clip:text;color:transparent}
+.foot .pt,.pt{font-family:var(--fh);font-weight:600}
+textarea,input[type=text]{border-radius:14px;border-width:1.5px;transition:border-color .2s,box-shadow .2s;line-height:1.5}
+textarea:focus,input[type=text]:focus{border-color:var(--pri);box-shadow:0 0 0 4px var(--sec);outline:none}
+.sel{border-radius:12px;border-width:1.5px}
+.vid{border-radius:20px;box-shadow:0 20px 40px -20px rgba(10,29,69,.7),0 0 0 3px var(--sec)}
+.av{background:linear-gradient(135deg,var(--blue),#7c3aed);box-shadow:0 8px 16px -8px rgba(91,79,207,.9)}
+details.refs,.refsec p{line-height:1.55}.refsec p{padding-bottom:2px}
+.mdl,.perfil{backdrop-filter:blur(6px);background:rgba(8,16,36,.62)}
+.mdl .in,.perfil div{border-radius:24px;box-shadow:0 30px 60px -20px rgba(0,0,0,.6);border:1.5px solid var(--line);animation:pop .3s ease backwards}
+:focus-visible{outline:3px solid var(--amber);outline-offset:3px;border-radius:8px}
+@media (max-width:720px){.app{border-radius:0;box-shadow:none}nav button[aria-current="true"]::after{left:22%;right:22%;top:-6px;bottom:auto;width:auto;height:4px;border-radius:0 0 4px 4px}main{padding:16px 16px}main::before{right:-100px;top:-110px}.tabs{border-radius:22px}.ill{width:min(220px,72%)}h2{font-size:1.3rem}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="app">
+<nav aria-label="Navegación principal">
+ <button data-go="0"><span aria-hidden="true">🏠</span>Inicio</button>
+ <button data-go="1"><span aria-hidden="true">🎯</span>Objetivos</button>
+ <button data-go="2"><span aria-hidden="true">🧠</span>Módulos</button>
+ <button data-go="6"><span aria-hidden="true">🏆</span>Reto final</button>
+ <button data-go="8"><span aria-hidden="true">📚</span>Referencias</button>
+ <button data-go="9"><span aria-hidden="true">🏅</span>Créditos</button>
+ <button id="perfilBtn"><span aria-hidden="true">👤</span>Perfil</button>
+</nav>
+<main>
+ <div class="top"><span class="tag">OVA · CríticaMente</span><div class="dots" id="dots" role="img"></div></div>
+
+ <section hidden>
+  <h2>🎬 CríticaMente · Universidad de Nariño</h2>
+  <p>Antes de empezar, mira este video. Mientras lo ves, piensa: ¿cuándo fue la última vez que compartiste algo sin comprobarlo?</p>
+  <div class="vid"><iframe src="https://www.youtube-nocookie.com/embed/RaePcZppHbs" title="¿Qué es el Pensamiento Crítico? - Píldora Mental" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
+  <div class="foot"><button class="btn blue" data-go="1">Siguiente →</button></div>
+ </section>
+
+
+ <section hidden id="obj">
+  <h2>🎯 Objetivos de aprendizaje</h2>
+  <p>Al terminar este OVA serás capaz de:</p>
+  <div style="display:grid;gap:10px">
+   <div class="box" style="border-left:6px solid #d33fa8"><b>1. 🔍 Explorar preguntas clave y partes de un argumento en distintos mensajes.</b><p class="sm muted" style="margin-top:4px">Habilidades: Preguntar y Analizar. Lo practicas en las pantallas 1 y 2 (cadena de mensajes y discurso académico) y en el reto final.</p></div>
+   <div class="box" style="border-left:6px solid #2e8b4a"><b>2. ✅ Revisar la confiabilidad de las fuentes antes de compartir o usar información.</b><p class="sm muted" style="margin-top:4px">Habilidad: Verificar. Lo practicas en la pantalla 3 (criterios CRAAP y laboratorio de fuentes) y en el reto final.</p></div>
+   <div class="box" style="border-left:6px solid #2563eb"><b>3. 💬 Construir argumentos y 🎯 tomar decisiones a partir de la evidencia.</b><p class="sm muted" style="margin-top:4px">Habilidades: Argumentar y Decidir. Lo practicas en la pantalla 4 (escenario ramificado y constructor de argumentos).</p></div>
+  </div>
+  <div class="detail"><b>📈 ¿Cómo sabrás que lo lograste?</b><p>Cada práctica suma puntos (máximo 50), el reto final integra las habilidades y, al final, responderás una autoevaluación sobre tu cambio de actitud.</p></div>
+  <div class="foot"><button class="btn blue" data-go="2">Comenzar →</button></div>
+ </section>
+
+ <section hidden id="s1"><h2></h2><div class="tabs"></div><div class="pane" style="display:grid;gap:12px"></div><div class="foot"><span class="muted sm pt"></span><button class="btn red nx" data-go="3" disabled>Siguiente →</button></div></section>
+
+ <section hidden id="s2"><h2></h2><div class="tabs"></div><div class="pane" style="display:grid;gap:12px"></div><div class="foot"><span class="muted sm pt"></span><button class="btn red nx" data-go="4" disabled>Siguiente →</button></div></section>
+
+ <section hidden id="s3"><h2></h2><div class="tabs"></div><div class="pane" style="display:grid;gap:12px"></div><div class="foot"><span class="muted sm pt"></span><button class="btn red nx" data-go="5" disabled>Siguiente →</button></div></section>
+
+ <section hidden id="s4"><h2></h2><div class="tabs"></div><div class="pane" style="display:grid;gap:12px"></div><div class="foot"><span class="muted sm pt"></span><button class="btn red nx" data-go="6" disabled>Siguiente →</button></div></section>
+
+ <section hidden id="s5"><h2></h2><div class="tabs"></div><div class="pane" style="display:grid;gap:12px"></div><div class="foot"><span class="muted sm pt"></span><button class="btn red nx" data-go="7" disabled>Finalizar →</button></div></section>
+
+ <section hidden>
+  <h2>🎓 ¡Felicitaciones, has completado el entrenamiento!</h2>
+  <p id="sc2" style="font-weight:600"></p>
+  <div class="cols">
+   <div class="win" style="display:grid;gap:8px;align-content:center;padding:22px 18px"><div style="font-size:3.4rem;line-height:1" aria-hidden="true">🏆</div><h3>¡Objetivo logrado!</h3><p style="margin:0 auto">Completaste el recorrido de CríticaMente: aprendiste a preguntar, analizar, verificar, argumentar y decidir con evidencia. Antes de compartir o creer una información, recuerda la regla de los 30 segundos y busca una segunda fuente. ¡Sigue pensando con criterio!</p></div>
+   <div class="box"><h3>📋 Autoevaluación</h3>
+    <p class="sm muted" style="margin:4px 0 8px">Responde con sinceridad: no tiene nota.</p>
+    <div id="aq"></div>
+    <button class="btn teal" id="aev" style="margin-top:8px">Ver mi resultado</button>
+    <div id="ares" aria-live="polite" style="margin-top:10px"></div>
+   </div>
+  </div>
+  <div class="foot"><button class="btn blue" data-go="8">📚 Ver referencias</button><button class="btn red" data-go="0">Volver al inicio</button></div>
+ </section>
+
+ <section hidden id="s8">
+  <h2>📚 Referencias</h2>
+  <p>Fuentes consultadas para este OVA (formato APA 7).</p>
+  <div class="refsec">
+   <p>Anthropic. (2026). <i>Claude Sonnet 5.5</i> [Modelo de lenguaje de gran tamaño]. <a href="https://claude.ai" target="_blank" rel="noopener">https://claude.ai</a></p>
+   <p>Bordes Solanas, M. (2011). <i>Las trampas de Circe: Falacias lógicas y argumentación informal</i>. Cátedra.</p>
+   <p>Elder, L., y Paul, R. (2002). <i>El arte de formular preguntas esenciales</i>. Fundación para el Pensamiento Crítico. <a href="https://www.criticalthinking.org/resources/PDF/SP-AskingQuestions.pdf" target="_blank" rel="noopener">https://www.criticalthinking.org/resources/PDF/SP-AskingQuestions.pdf</a></p>
+   <p>Facione, P. A. (2007). <i>Pensamiento crítico: ¿Qué es y por qué es importante?</i> Insight Assessment; The California Academic Press. <a href="http://eduteka.icesi.edu.co/pdfdir/PensamientoCriticoFacione.pdf" target="_blank" rel="noopener">http://eduteka.icesi.edu.co/pdfdir/PensamientoCriticoFacione.pdf</a></p>
+   <p>Píldora Mental. (2025, 3 de julio). <i>¿Qué es el Pensamiento Crítico?</i> [Video]. YouTube. <a href="https://www.youtube.com/watch?v=RaePcZppHbs" target="_blank" rel="noopener noreferrer">https://www.youtube.com/watch?v=RaePcZppHbs</a></p>
+   <p>Toulmin, S. E. (2007). <i>Los usos de la argumentación</i> (M. Morrás y V. Pineda, Trads.). Ediciones Península. (Obra original publicada en 1958)</p>
+   <p>Wilson, C., Grizzle, A., Tuazon, R., Akyempong, K., y Cheung, C.-K. (2011). <i>Alfabetización mediática e informacional: Currículum para profesores</i>. UNESCO. <a href="https://repositorio.minedu.gob.pe/handle/20.500.12799/4586" target="_blank" rel="noopener">https://repositorio.minedu.gob.pe/handle/20.500.12799/4586</a></p>
+   <p class="muted">Ilustraciones de los módulos: creadas con Claude (Anthropic, 2026) a partir de las indicaciones de los autores del OVA, tomando como inspiración el estilo de imágenes de referencia sobre mente, cerebro y pensamiento (vectores planos con íconos de ideas, engranajes y libros).</p>
+   <p class="muted">Los casos, publicaciones y ejemplos del OVA son material de ejemplo creado para este recurso.</p>
+  </div>
+  <div class="foot"><button class="btn blue" data-go="9">🏅 Créditos</button><button class="btn red" data-go="0">Volver al inicio</button></div>
+ </section>
+
+ <section hidden id="s9">
+  <h2>🏅 Créditos</h2>
+  <p>OVA <b>CríticaMente</b>: pensamiento crítico para estudiantes de primer semestre de la Universidad de Nariño.</p>
+  <div class="detail"><b>🎓 Institución</b><p>Universidad de Nariño · Programa de Licenciatura en Informática.</p></div>
+  <b>Creadores del OVA</b>
+  <div class="cards" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr))">
+   <div class="box" style="text-align:center"><div class="av" aria-hidden="true">DT</div><b>Daniel Trejo Villada</b><p class="sm muted">Creador del OVA · Licenciatura en Informática, Universidad de Nariño</p></div>
+   <div class="box" style="text-align:center"><div class="av" aria-hidden="true">AV</div><b>Albert Jesús Vargas</b><p class="sm muted">Creador del OVA · Licenciatura en Informática, Universidad de Nariño</p></div>
+  </div>
+  <div class="detail"><b>🎨 Recursos</b><p>Video de introducción: Píldora Mental (2025). Las demás fuentes están en el apartado Referencias.</p></div>
+  <div class="foot"><button class="btn blue" data-go="8">📚 Referencias</button><button class="btn red" data-go="0">Volver al inicio</button></div>
+ </section>
+</main>
+</div>
+<div class="mdl" id="ana" hidden role="dialog" aria-modal="true" aria-labelledby="at"><div class="in"><h3 id="at">🧩 Reto relámpago: ¡ordena las letras!</h3><div id="ab" style="margin-top:8px"></div></div></div>
+<div class="perfil" id="perfil" hidden role="dialog" aria-modal="true" aria-labelledby="pt"><div><h3 id="pt">👤 Mi perfil</h3><p id="pinfo" style="margin-top:8px"></p><button class="btn blue" id="pclose" style="margin-top:14px">Cerrar</button></div></div>
+
+<script>
+var $=function(i){return document.getElementById(i)};
+var S={pre:"",seen:{},res:[0,0,0,0,0],att:[0,0,0,0,0],done:false,cur:0,r:0};
+var secs=[].slice.call(document.querySelectorAll("section"));
+function go(n){
+ S.cur=n;secs.forEach(function(s,i){s.hidden=i!==n});
+ $("dots").innerHTML="";
+ for(var i=0;i<8;i++){var d=document.createElement("i");d.className=i===n?"on":(i<n?"done":"");$("dots").appendChild(d)}
+ $("dots").style.visibility=n>7?"hidden":"visible";$("dots").setAttribute("aria-label","Pantalla "+(n+1)+" de 8");
+ [].forEach.call(document.querySelectorAll("nav [data-go]"),function(b){var t=+b.dataset.go;b.setAttribute("aria-current",(t===n||(t===2&&n>=2&&n<=5))?"true":"false")});
+ if(n===7){S.done=true;summary()}
+ window.scrollTo(0,0);
+}
+document.addEventListener("click",function(e){var b=e.target.closest("[data-go]");if(b&&!b.disabled)go(+b.dataset.go)});
+function radios(name,opts){return opts.map(function(o,i){return '<label class="opt"><input type="radio" name="'+name+'" value="'+i+'"> '+o+'</label>'}).join("")}
+
+/* Estructura CríticaMente: 5 pantallas */
+var COL=["#d33fa8","#e0a31b","#2e8b4a","#2563eb","#5b4fcf"];
+var NAME=["❓ 1. Preguntar · Inicio y diagnóstico","🔍 2. Analizar · Análisis de argumentos","✅ 3. Verificar · Evaluación de la información","💬 4. Argumentar y 🎯 Decidir · Resolución de problemas","🏆 5. Reto final · Detectives de la información"];
+var L=[
+{i:"Preguntar es el punto de partida del pensamiento crítico. Antes de aceptar o investigar, formulas preguntas que aclaran el problema, revelan vacíos de información y cuestionan supuestos. Es la base del cuestionamiento socrático que proponen Paul y Elder.",
+ c:[["Clarificar","¿Qué quiere decir exactamente? ¿Puedes darme un ejemplo?"],["Sondear supuestos","¿Qué se da por cierto aquí? ¿Y si no fuera así?"],["Pedir evidencia","¿Cómo lo sabemos? ¿Qué dato o documento lo respalda?"],["Cambiar de punto de vista","¿Quién se beneficia? ¿Cómo lo vería otra persona?"],["Anticipar implicaciones","Si esto fuera cierto, ¿qué pasaría después?"]],
+ k:"Un vacío de información es lo que no sabes y necesitas saber. Una buena pregunta es abierta, específica y se puede investigar. Facione (2007) describe el pensamiento crítico como un juicio autorregulado y con propósito: todo empieza con indagar."},
+{i:"Analizar es descomponer un texto o un discurso en sus partes: premisas (razones o datos), conclusión (lo que se defiende) y opiniones. Facione lo ubica como habilidad central, junto con interpretar y evaluar.",
+ c:[["Premisa","Razón o dato que apoya. Indicadores: porque, ya que, dado que."],["Conclusión","Lo que se quiere probar. Indicadores: por lo tanto, entonces, en consecuencia."],["Hecho y opinión","Un hecho se puede comprobar; una opinión expresa una valoración."],["Ad hominem","Atacar a la persona y no a su argumento."],["Falso dilema","Presentar solo dos opciones cuando hay más."],["Ad populum","«Es cierto porque todos lo creen.»"],["Generalización apresurada","Concluir a partir de muy pocos casos."]],
+ k:"Para analizar: 1) subraya la conclusión, 2) lista las premisas, 3) revisa si la conclusión realmente se sigue de ellas, 4) busca falacias y sesgos, como el de confirmación."},
+{i:"Verificar es contrastar la información y evaluar su fiabilidad antes de usarla. Es la base de la alfabetización mediática frente a noticias falsas y de la búsqueda de fuentes para tus trabajos.",
+ c:[["Vigencia (Currency)","¿Cuándo se publicó? ¿Sigue siendo actual?"],["Relevancia (Relevance)","¿Responde a mi tema y a mi nivel?"],["Autoridad (Authority)","¿Quién lo escribe y qué experiencia tiene?"],["Exactitud (Accuracy)","¿Cita fuentes y se puede comprobar?"],["Propósito (Purpose)","¿Informa, vende, persuade o engaña?"]],
+ k:"Lectura lateral: sal de la página y busca qué dicen otras fuentes sobre ella. En trabajos académicos prefiere artículos revisados por pares en las bases de datos de tu biblioteca (por ejemplo SciELO o Redalyc) y usa medios y redes como pista, no como prueba final."},
+{i:"Argumentar es defender una postura con razones y evidencia; decidir es elegir una acción fundamentada y asumir sus consecuencias. Juntas permiten resolver problemas universitarios reales.",
+ c:[["Afirmación","Lo que defiendes (tu tesis)."],["Datos","La evidencia que la apoya."],["Garantía","La razón que conecta los datos con la afirmación."],["Respaldo","Por qué la garantía es válida."],["Salvedad","Condiciones o excepciones en las que no aplica."],["Pensamiento sistémico","Ver cómo se conectan las partes y sus efectos."],["Hipótesis","Posible explicación que puedes comprobar."]],
+ k:"Modelo de Toulmin para argumentar. Conectores lógicos: porque, dado que, por lo tanto, sin embargo, aunque. Para decidir: 1) define el problema, 2) genera alternativas, 3) fija criterios, 4) evalúa consecuencias, 5) elige y revisa el resultado."},
+null];
+var pre=["Comparto de inmediato si me parece importante.","Leo los comentarios para ver si es verdad.","Busco otra fuente antes de creerla."];
+function tot(){return S.res.reduce(function(a,b){return a+b},0)}
+S.tab=[0,0,0,0,1];S.ok=[0,0,0,0,0];
+function done(i,first){S.ok[i]=1;S.res[i]=first?10:5;hdr(i)}
+function hdr(i){
+ var s=$("s"+(i+1)),tb=s.querySelector(".tabs");tb.innerHTML="";
+ (i<4?["📘 Aprende","🧪 Practica"]:["🎯 Reto final"]).forEach(function(t,k){
+  var kk=i<4?k:1,b=document.createElement("button");b.className="tab";b.textContent=t+(kk===1&&S.ok[i]?" ✔":"");b.setAttribute("aria-pressed",S.tab[i]===kk);b.onclick=function(){S.tab[i]=kk;rs(i)};tb.appendChild(b)});
+ s.querySelector(".nx").disabled=!S.ok[i];
+ s.querySelector(".pt").textContent="Puntos: "+tot()+"/50";
+}
+function rs(i){
+ var s=$("s"+(i+1)),p=s.querySelector(".pane");s.querySelector("h2").textContent=NAME[i];hdr(i);
+ if(S.tab[i]===0){
+  lrn(p,i);return}
+ [p1,p2,p3,p4,p5][i](p,i);
+}
+function D(q,e,c){return "<b>Qué es:</b> "+q+"<br><b>Ejemplo:</b> "+e+"<br><b>Cómo aplicarlo:</b> "+c}
+var DET=[
+[D("Buscar entender con precisión lo que alguien afirma antes de opinar o investigar.","ante «los exámenes serán distintos», preguntas: ¿distintos en qué? ¿en formato o en contenido?","reformula con tus palabras y pide un ejemplo concreto."),
+ D("Descubrir las ideas que un mensaje da por ciertas sin decirlo.","«Si no confirmas el enlace pierdes el cupo» supone que la universidad confirma datos por enlaces.","pregúntate qué tendría que ser cierto para que esto tenga sentido."),
+ D("Exigir datos verificables que respalden una afirmación.","«Estudiar de noche rinde más»: ¿qué estudio o datos lo muestran?","pide fuente, fecha y autor, y distingue evidencia de opinión."),
+ D("Mirar el tema desde otros ángulos para reducir sesgos.","¿Cómo vería un docente, y cómo un estudiante de otra carrera, la propuesta de quitar un parcial?","nombra al menos dos puntos de vista distintos del tuyo."),
+ D("Pensar las consecuencias antes de actuar.","si compartes un bulo sobre clases suspendidas, ¿cuántos compañeros faltarían a clase?","completa «si esto es cierto, entonces…» y «si lo comparto, entonces…».")],
+[D("La razón o dato que apoya una conclusión.","«Dormir poco reduce la atención» apoya la idea de evitar exámenes a las 6 a. m.","pregunta «¿por qué debería creerlo?»: lo que responde el autor son sus premisas."),
+ D("Lo que el autor quiere que aceptes o hagas.","«Por lo tanto, deberían evitarse los exámenes a las 6 a. m.»","pregunta «¿qué quiere que piense o haga?» y busca palabras como por lo tanto o entonces."),
+ D("Un hecho se puede comprobar con datos; una opinión expresa una valoración personal.","«La biblioteca abre a las 7 a. m.» es hecho; «la biblioteca es aburrida» es opinión.","pregúntate si puedes comprobarlo con un dato: si puedes, es un hecho."),
+ D("Una falacia que ataca a la persona en lugar de responder a su argumento.","«No hagas caso a Laura: ni terminó el semestre pasado.»","separa quién lo dice de qué dice y evalúa solo el argumento."),
+ D("Una falacia que reduce un problema a dos opciones extremas.","«O estudias toda la noche o repruebas.» Existen opciones intermedias, como planificar y descansar.","busca siempre una tercera alternativa."),
+ D("Una falacia que usa la popularidad como prueba de verdad.","«Todos usan esta app, así que es la mejor.»","pregunta qué evidencia hay aparte de cuántas personas lo creen."),
+ D("Una falacia que concluye a partir de muy pocos casos.","«Dos compañeros reprobaron con ese docente, así que es injusto.»","pregunta cuántos casos hay y si representan a todos.")],
+[D("Revisar si la información sigue siendo actual.","un artículo de 2009 sobre redes sociales puede estar desactualizado; un texto histórico sigue siendo útil.","mira la fecha y busca si existen versiones o estudios más recientes."),
+ D("Comprobar si la fuente responde tu pregunta, para tu público y nivel.","un estudio sobre sueño en niños puede no servir para universitarios.","compara su tema, población y nivel con lo que necesitas."),
+ D("Saber quién escribe y con qué experiencia o respaldo institucional.","un artículo firmado por investigadores de una universidad, publicado en una revista científica.","busca al autor y su institución; desconfía de «expertos» anónimos o ajenos al tema."),
+ D("Confirmar que los datos son correctos y se pueden comprobar.","un texto que cita estudios con referencias y método frente a otro que dice «los científicos dicen».","revisa las referencias, comprueba que lleven a datos reales y contrasta con otra fuente."),
+ D("Identificar por qué existe el contenido: informar, vender, persuadir o entretener.","un anuncio de un «suplemento que mejora las notas» busca vender.","pregunta quién gana si lo crees y si hay patrocinio o publicidad.")],
+[D("La tesis que defiendes, clara y discutible.","«El grupo debe usar la revisión de 2023.»","respóndete en una frase: ¿qué estoy defendiendo?"),
+ D("La evidencia que apoya la afirmación: cifras, estudios, testimonios verificables.","la revisión reúne varios estudios sobre sueño y atención.","elige datos confiables y relevantes, con su fuente."),
+ D("La razón que conecta los datos con la afirmación.","«Las revisiones científicas son más confiables que un mensaje sin fuente.»","completa la frase «los datos importan porque…»."),
+ D("Lo que refuerza la garantía y la hace aceptable.","«Las revisiones se publican tras evaluación de pares.»","añade normas, teorías o autoridad que sustenten tu garantía."),
+ D("Las condiciones o excepciones en que tu argumento no aplica.","«Salvo que aparezca evidencia más reciente.»","indica cuándo cambiarías de opinión: muestra honestidad intelectual."),
+ D("Ver cómo se conectan las partes de un problema y sus efectos.","dormir poco afecta la atención, las notas, el ánimo y la salud.","dibuja un mapa de causas y efectos antes de decidir."),
+ D("Una posible explicación que puedes poner a prueba.","«Si duermo 8 horas, mejoraré en los parciales», y lo pruebas durante una semana.","formula «si… entonces…» y define cómo la comprobarías.")]];
+var SRC=["Elder y Paul (2002); Facione (2007)","Facione (2007); Bordes Solanas (2011)","Wilson et al. (2011)","Toulmin (2007)",""];
+S.vw=[{},{},{},{},{}];S.sel=[-1,-1,-1,-1,-1];
+function lrn(p,i){
+ var c=L[i].c,n=c.length,v=Object.keys(S.vw[i]).length,k=S.sel[i];
+ p.innerHTML='<div class="irow">'+ill(i)+'<p>'+L[i].i+'</p></div><p class="sm muted">👆 Toca cada tarjeta para ver más información. Exploradas: <b>'+v+'/'+n+'</b></p><div class="cards" style="grid-template-columns:repeat(auto-fit,minmax(190px,1fr))">'+c.map(function(x,j){return '<button class="card" aria-pressed="'+(j===k)+'" data-c="'+j+'" style="border-left-color:'+COL[j%5]+'"><b>'+(S.vw[i][j]?"✔ ":"")+x[0]+'</b><small>'+x[1]+'</small></button>'}).join("")+'</div>'+(k>-1?'<div class="detail" id="dt'+i+'" aria-live="polite"><b>'+c[k][0]+'</b><p>'+DET[i][k]+'</p></div>':'')+'<div class="detail"><b>🔑 Claves</b><p>'+L[i].k+'</p></div><p class="sm muted">📚 Fuentes: '+SRC[i]+'. Lista completa en el apartado Referencias del menú.</p><div class="foot" style="justify-content:flex-start">'+(i<2&&v===n?'<button class="btn" id="ra'+i+'">🧩 Reto relámpago</button>':'')+'<button class="btn blue" id="gp'+i+'">Ir a practicar →</button></div>';
+ [].forEach.call(p.querySelectorAll("[data-c]"),function(x){x.onclick=function(){var j=+x.dataset.c;S.sel[i]=j;S.vw[i][j]=1;lrn(p,i);if(i<2&&!S.ana[i]&&Object.keys(S.vw[i]).length===L[i].c.length)setTimeout(function(){openAna(i)},400);var nb=p.querySelector('[data-c="'+j+'"]');if(nb)nb.focus({preventScroll:true});var d=$("dt"+i);if(d)d.scrollIntoView({block:"nearest"})}});
+ $("gp"+i).onclick=function(){S.tab[i]=1;rs(i)};if($("ra"+i))$("ra"+i).onclick=function(){openAna(i)};
+}
+/* Reto relámpago: anagrama al revisar todas las tarjetas de Preguntar y Analizar */
+var WW=["",""];/* Opcional: enlace de inserción de Wordwall (https://wordwall.net/...) para Preguntar y Analizar. Vacío = anagrama integrado. */
+var ANA=[[["EVIDENCIA","Datos o documentos que respaldan una afirmación."]],
+[["PREMISA","Razón o dato que apoya una conclusión."],["FALACIA","Error de razonamiento que parece válido, como el ad hominem."],["CONCLUSIÓN","Lo que el autor quiere que aceptes."]]];
+S.ana=[0,0];var A={},lastF=null;
+function nz(w){return w.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toUpperCase()}
+function shuf(a){var r=a.slice(),o=r.join("");for(var t=0;t<20;t++){for(var k=r.length-1;k>0;k--){var j=Math.floor(Math.random()*(k+1)),x=r[k];r[k]=r[j];r[j]=x}if(r.join("")!==o)break}return r}
+function closeAna(){$("ana").hidden=true;if(lastF&&lastF.focus)lastF.focus()}
+function wire(){
+ var b=$("ab");
+ [].forEach.call(b.querySelectorAll("[data-k]"),function(x){x.onclick=function(){
+  if(A.done)return;var k=+x.dataset.k;A.pk.push(A.tl[k]);A.us.push(k);
+  if(A.pk.length===A.t.length){
+   if(A.pk.join("")===A.t){A.done=1;if(A.w===ANA[A.i].length-1)S.ana[A.i]=1;draw('<div class="fb ok">✔ ¡Correcto! '+ANA[A.i][A.w][0]+'</div>')}
+   else{A.pk=[];A.us=[];draw('<div class="fb bad">✖ No es esa palabra. Inténtalo de nuevo.</div>')}
+  }else draw()}});
+ ["acl","acx"].forEach(function(id){if($(id))$(id).onclick=closeAna});
+ if($("aclr"))$("aclr").onclick=function(){A.pk=[];A.us=[];draw()};
+ if($("anx"))$("anx").onclick=function(){A.w++;newWord()};
+}
+function draw(fb){
+ var d=ANA[A.i][A.w];
+ $("ab").innerHTML='<p class="sm muted">Anagrama '+(A.w+1)+' de '+ANA[A.i].length+' · toca las letras en orden</p><p style="margin:6px 0"><b>Pista:</b> '+d[1]+'</p><div class="tl" aria-label="Tu respuesta">'+A.t.split("").map(function(c,k){return '<span class="lt sl">'+(A.pk[k]||"")+'</span>'}).join("")+'</div><div class="tl">'+A.tl.map(function(c,k){return '<button class="lt" data-k="'+k+'"'+(A.us.indexOf(k)>-1||A.done?" disabled":"")+'>'+c+'</button>'}).join("")+'</div><div aria-live="polite">'+(fb||"")+'</div><div class="foot">'+(A.done?(A.w<ANA[A.i].length-1?'<button class="btn blue" id="anx">Siguiente palabra →</button>':'<button class="btn blue" id="acl">¡Listo! Continuar →</button>'):'<button class="btn" id="aclr">Borrar</button>')+'<button class="tab" id="acx">Cerrar</button></div>';
+ wire();
+ var f=$("ab").querySelector("button.lt:not(:disabled)")||$("ab").querySelector("#anx,#acl,#aclr");if(f)f.focus();
+}
+function newWord(){A.t=nz(ANA[A.i][A.w][0]);A.tl=shuf(A.t.split(""));A.pk=[];A.us=[];A.done=0;draw()}
+function openAna(i){
+ lastF=document.activeElement;A={i:i,w:0};var u=WW[i];
+ if(u&&/^https:\/\/wordwall\.net\//.test(u)){
+  $("ab").innerHTML='<p class="sm muted" style="margin-bottom:8px">Resuelve el anagrama y luego continúa.</p><iframe src="'+u+'" title="Actividad de Wordwall" style="width:100%;height:380px;border:0;border-radius:12px" allowfullscreen></iframe><div class="foot"><a class="btn blue" href="'+u+'" target="_blank" rel="noopener">Abrir en otra pestaña</a><button class="btn red" id="acl">Continuar →</button></div>';
+  S.ana[i]=1;wire();$("ana").hidden=false;return}
+ $("ana").hidden=false;newWord();
+}
+document.addEventListener("keydown",function(e){if(e.key==="Escape"){if(!$("ana").hidden)closeAna();if(!$("perfil").hidden)$("perfil").hidden=true}});
+var IMG=['<svg viewBox="0 0 200 200" role="img" aria-label="Persona con una lupa frente a un cerebro, rodeada de signos de pregunta, ideas y mensajes"><rect width="200" height="200" rx="18" fill="#2f8fe0"/><circle cx="100" cy="100" r="88" fill="#fff" fill-opacity=".35"/><g transform="translate(100 82) scale(1.55)"><circle cx="-20" cy="-6" r="19" fill="#ec6f9a"/><circle cx="2" cy="-16" r="20" fill="#ec6f9a"/><circle cx="22" cy="-6" r="19" fill="#ec6f9a"/><circle cx="-14" cy="12" r="18" fill="#ec6f9a"/><circle cx="10" cy="14" r="19" fill="#ec6f9a"/><circle cx="26" cy="14" r="13" fill="#ec6f9a"/><path d="M2 -34V28M-22 -8C-12 -6 -8 2 -14 10M24 -6C14 -4 10 4 16 12M-8 -22C-2 -18 0 -12 -6 -8" fill="none" stroke="#b8446f" stroke-width="2.5" stroke-linecap="round"/></g><rect x="87" y="142" width="11" height="34" rx="4" fill="#1c2541"/><rect x="102" y="142" width="11" height="34" rx="4" fill="#1c2541"/><path d="M80 142 C78 110 90 100 100 100 L110 100 L120 142 Z" fill="#2563eb"/><rect x="80" y="128" width="40" height="14" rx="5" fill="#1c2541"/><circle cx="100" cy="88" r="12" fill="#f1b98a"/><path d="M88 86 A12 12 0 0 1 112 86 C108 74 92 74 88 86 Z" fill="#3a2a20"/><path d="M112 120L126 92" stroke="#f1b98a" stroke-width="8" stroke-linecap="round"/><circle cx="130" cy="82" r="15" fill="#fff" fill-opacity=".55" stroke="#e0a31b" stroke-width="5"/><rect x="60" y="176" width="80" height="10" rx="3" fill="#14396b"/><rect x="68" y="186" width="64" height="6" rx="2" fill="#5b4fcf"/><g><circle cx="34" cy="40" r="17" fill="#fff" stroke="#14396b" stroke-width="2.5"/><g transform="translate(34 40)"><text y="7" font-size="20" font-family="Bricolage Grotesque,Arial,sans-serif" font-weight="800" text-anchor="middle" fill="#d33fa8">?</text></g></g><g><circle cx="168" cy="48" r="17" fill="#fff" stroke="#14396b" stroke-width="2.5"/><g transform="translate(168 48)"><circle cy="-2" r="7" fill="#f5b81c"/><rect x="-4" y="5" width="8" height="5" rx="1.5" fill="#6b6f80"/></g></g><g><circle cx="30" cy="122" r="17" fill="#fff" stroke="#14396b" stroke-width="2.5"/><g transform="translate(30 122)"><circle cx="-2" cy="-2" r="6" fill="none" stroke="#5b4fcf" stroke-width="3"/><path d="M3 3L9 9" stroke="#5b4fcf" stroke-width="3.5" stroke-linecap="round"/></g></g><g><circle cx="170" cy="128" r="17" fill="#fff" stroke="#14396b" stroke-width="2.5"/><g transform="translate(170 128)"><path d="M-9 -8H9V3H2L-3 8V3H-9Z" fill="#d33fa8"/><path d="M-5 -4H5M-5 0H2" stroke="#fff" stroke-width="2" stroke-linecap="round"/></g></g></svg>','<svg viewBox="0 0 200 200" role="img" aria-label="Cabeza con engranajes que representa analizar ideas, con gráficos, documentos y una lupa alrededor"><rect width="200" height="200" rx="18" fill="#f6b44d"/><circle cx="14" cy="14" r="2" fill="#f0a640"/><circle cx="38" cy="14" r="2" fill="#f0a640"/><circle cx="62" cy="14" r="2" fill="#f0a640"/><circle cx="86" cy="14" r="2" fill="#f0a640"/><circle cx="110" cy="14" r="2" fill="#f0a640"/><circle cx="134" cy="14" r="2" fill="#f0a640"/><circle cx="158" cy="14" r="2" fill="#f0a640"/><circle cx="182" cy="14" r="2" fill="#f0a640"/><circle cx="26" cy="38" r="2" fill="#f0a640"/><circle cx="50" cy="38" r="2" fill="#f0a640"/><circle cx="74" cy="38" r="2" fill="#f0a640"/><circle cx="98" cy="38" r="2" fill="#f0a640"/><circle cx="122" cy="38" r="2" fill="#f0a640"/><circle cx="146" cy="38" r="2" fill="#f0a640"/><circle cx="170" cy="38" r="2" fill="#f0a640"/><circle cx="194" cy="38" r="2" fill="#f0a640"/><circle cx="14" cy="62" r="2" fill="#f0a640"/><circle cx="38" cy="62" r="2" fill="#f0a640"/><circle cx="62" cy="62" r="2" fill="#f0a640"/><circle cx="86" cy="62" r="2" fill="#f0a640"/><circle cx="110" cy="62" r="2" fill="#f0a640"/><circle cx="134" cy="62" r="2" fill="#f0a640"/><circle cx="158" cy="62" r="2" fill="#f0a640"/><circle cx="182" cy="62" r="2" fill="#f0a640"/><circle cx="26" cy="86" r="2" fill="#f0a640"/><circle cx="50" cy="86" r="2" fill="#f0a640"/><circle cx="74" cy="86" r="2" fill="#f0a640"/><circle cx="98" cy="86" r="2" fill="#f0a640"/><circle cx="122" cy="86" r="2" fill="#f0a640"/><circle cx="146" cy="86" r="2" fill="#f0a640"/><circle cx="170" cy="86" r="2" fill="#f0a640"/><circle cx="194" cy="86" r="2" fill="#f0a640"/><circle cx="14" cy="110" r="2" fill="#f0a640"/><circle cx="38" cy="110" r="2" fill="#f0a640"/><circle cx="62" cy="110" r="2" fill="#f0a640"/><circle cx="86" cy="110" r="2" fill="#f0a640"/><circle cx="110" cy="110" r="2" fill="#f0a640"/><circle cx="134" cy="110" r="2" fill="#f0a640"/><circle cx="158" cy="110" r="2" fill="#f0a640"/><circle cx="182" cy="110" r="2" fill="#f0a640"/><circle cx="26" cy="134" r="2" fill="#f0a640"/><circle cx="50" cy="134" r="2" fill="#f0a640"/><circle cx="74" cy="134" r="2" fill="#f0a640"/><circle cx="98" cy="134" r="2" fill="#f0a640"/><circle cx="122" cy="134" r="2" fill="#f0a640"/><circle cx="146" cy="134" r="2" fill="#f0a640"/><circle cx="170" cy="134" r="2" fill="#f0a640"/><circle cx="194" cy="134" r="2" fill="#f0a640"/><circle cx="14" cy="158" r="2" fill="#f0a640"/><circle cx="38" cy="158" r="2" fill="#f0a640"/><circle cx="62" cy="158" r="2" fill="#f0a640"/><circle cx="86" cy="158" r="2" fill="#f0a640"/><circle cx="110" cy="158" r="2" fill="#f0a640"/><circle cx="134" cy="158" r="2" fill="#f0a640"/><circle cx="158" cy="158" r="2" fill="#f0a640"/><circle cx="182" cy="158" r="2" fill="#f0a640"/><circle cx="26" cy="182" r="2" fill="#f0a640"/><circle cx="50" cy="182" r="2" fill="#f0a640"/><circle cx="74" cy="182" r="2" fill="#f0a640"/><circle cx="98" cy="182" r="2" fill="#f0a640"/><circle cx="122" cy="182" r="2" fill="#f0a640"/><circle cx="146" cy="182" r="2" fill="#f0a640"/><circle cx="170" cy="182" r="2" fill="#f0a640"/><circle cx="194" cy="182" r="2" fill="#f0a640"/><circle cx="100" cy="100" r="82" fill="none" stroke="#fff" stroke-width="2.5" stroke-dasharray="3 6"/><g transform="translate(100 104) scale(.62) translate(-100 -104)"><path d="M66 178V152C46 142 34 122 34 100C34 62 64 34 100 34C136 34 160 56 160 86C160 94 162 98 166 106L157 110L162 119L155 125C157 136 149 144 139 146L128 148V178Z" fill="#1c2541"/></g><polygon points="120.0,96.0 119.6,100.3 113.9,102.6 112.3,105.5 113.6,111.6 110.2,114.3 104.6,111.9 101.3,112.8 98.0,118.0 93.7,117.6 91.4,111.9 88.5,110.3 82.4,111.6 79.7,108.2 82.1,102.6 81.2,99.3 76.0,96.0 76.4,91.7 82.1,89.4 83.7,86.5 82.4,80.4 85.8,77.7 91.4,80.1 94.7,79.2 98.0,74.0 102.3,74.4 104.6,80.1 107.5,81.7 113.6,80.4 116.3,83.8 113.9,89.4 114.8,92.7" fill="#ef7d3c"/><circle cx="98" cy="96" r="8.4" fill="#fff"/><polygon points="90.0,112.0 89.5,115.6 85.5,117.5 83.7,119.7 83.0,124.1 79.6,125.5 76.0,122.9 73.2,122.5 69.0,124.1 66.1,121.9 66.5,117.5 65.5,114.8 62.0,112.0 62.5,108.4 66.5,106.5 68.3,104.3 69.0,99.9 72.4,98.5 76.0,101.1 78.8,101.5 83.0,99.9 85.9,102.1 85.5,106.5 86.5,109.2" fill="#f2a65a"/><circle cx="76" cy="112" r="5.3" fill="#fff"/><polygon points="135.0,114.0 134.6,117.3 130.5,119.1 129.1,121.3 129.4,125.7 126.5,127.5 122.6,125.4 120.0,125.7 116.7,128.6 113.5,127.5 112.7,123.1 110.9,121.3 106.5,120.5 105.4,117.3 108.3,114.0 108.6,111.4 106.5,107.5 108.3,104.6 112.7,104.9 114.9,103.5 116.7,99.4 120.0,99.0 122.6,102.6 125.1,103.5 129.4,102.3 131.7,104.6 130.5,108.9 131.4,111.4" fill="#c9582b"/><circle cx="120" cy="114" r="5.7" fill="#fff"/><g><circle cx="36" cy="40" r="17" fill="#fff" stroke="#14396b" stroke-width="2.5"/><g transform="translate(36 40)"><rect x="-9" y="0" width="5" height="9" fill="#d33fa8"/><rect x="-2" y="-8" width="5" height="17" fill="#2563eb"/><rect x="5" y="-3" width="5" height="12" fill="#e0a31b"/></g></g><g><circle cx="164" cy="40" r="17" fill="#fff" stroke="#14396b" stroke-width="2.5"/><g transform="translate(164 40)"><circle cy="-2" r="7" fill="#f5b81c"/><rect x="-4" y="5" width="8" height="5" rx="1.5" fill="#6b6f80"/></g></g><g><circle cx="30" cy="142" r="17" fill="#fff" stroke="#14396b" stroke-width="2.5"/><g transform="translate(30 142)"><rect x="-7" y="-9" width="14" height="18" rx="2" fill="#2e8b4a"/><path d="M-4 -3H4M-4 1H4M-4 5H1" stroke="#fff" stroke-width="2" stroke-linecap="round"/></g></g><g><circle cx="170" cy="140" r="17" fill="#fff" stroke="#14396b" stroke-width="2.5"/><g transform="translate(170 140)"><circle cx="-2" cy="-2" r="6" fill="none" stroke="#5b4fcf" stroke-width="3"/><path d="M3 3L9 9" stroke="#5b4fcf" stroke-width="3.5" stroke-linecap="round"/></g></g><g><circle cx="100" cy="18" r="14" fill="#fff" stroke="#14396b" stroke-width="2.5"/><g transform="translate(100 18)"><path d="M-6 -8H6V-2C6 3 3 5 0 5C-3 5 -6 3 -6 -2Z" fill="#e0a31b"/><rect x="-1.5" y="5" width="3" height="4" fill="#e0a31b"/><rect x="-5" y="9" width="10" height="2.5" rx="1" fill="#b57f00"/></g></g></svg>','<svg viewBox="0 0 200 200" role="img" aria-label="Cabeza con cerebro rodeada de un escudo de verificación, documentos, una lupa y una bombilla"><rect width="200" height="200" rx="18" fill="#9fb4ad"/><circle cx="100" cy="100" r="86" fill="#fff" fill-opacity=".45"/><circle cx="100" cy="102" r="76" fill="none" stroke="#14396b" stroke-width="2" stroke-dasharray="2 7" stroke-linecap="round"/><g transform="translate(100 112) scale(.6) translate(-100 -112)"><path d="M66 178V152C46 142 34 122 34 100C34 62 64 34 100 34C136 34 160 56 160 86C160 94 162 98 166 106L157 110L162 119L155 125C157 136 149 144 139 146L128 148V178Z" fill="#1c2541"/></g><g transform="translate(98 96) scale(0.85)"><circle cx="-20" cy="-6" r="19" fill="#ec6f9a"/><circle cx="2" cy="-16" r="20" fill="#ec6f9a"/><circle cx="22" cy="-6" r="19" fill="#ec6f9a"/><circle cx="-14" cy="12" r="18" fill="#ec6f9a"/><circle cx="10" cy="14" r="19" fill="#ec6f9a"/><circle cx="26" cy="14" r="13" fill="#ec6f9a"/><path d="M2 -34V28M-22 -8C-12 -6 -8 2 -14 10M24 -6C14 -4 10 4 16 12M-8 -22C-2 -18 0 -12 -6 -8" fill="none" stroke="#b8446f" stroke-width="2.5" stroke-linecap="round"/></g><g><circle cx="100" cy="26" r="20" fill="#fff" stroke="#14396b" stroke-width="2.5"/><g transform="translate(100 26)"><circle cy="-2" r="7" fill="#f5b81c"/><rect x="-4" y="5" width="8" height="5" rx="1.5" fill="#6b6f80"/></g></g><g><circle cx="34" cy="64" r="17" fill="#fff" stroke="#14396b" stroke-width="2.5"/><g transform="translate(34 64)"><path d="M0 -9L8 -6V1C8 6 4 9 0 11C-4 9 -8 6 -8 1V-6Z" fill="#2e8b4a"/><path d="M-4 1L-1 4L5 -3" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></g></g><g><circle cx="166" cy="64" r="17" fill="#fff" stroke="#14396b" stroke-width="2.5"/><g transform="translate(166 64)"><rect x="-7" y="-9" width="14" height="18" rx="2" fill="#2e8b4a"/><path d="M-4 -3H4M-4 1H4M-4 5H1" stroke="#fff" stroke-width="2" stroke-linecap="round"/></g></g><g><circle cx="34" cy="150" r="17" fill="#fff" stroke="#14396b" stroke-width="2.5"/><g transform="translate(34 150)"><circle cx="-2" cy="-2" r="6" fill="none" stroke="#5b4fcf" stroke-width="3"/><path d="M3 3L9 9" stroke="#5b4fcf" stroke-width="3.5" stroke-linecap="round"/></g></g><g><circle cx="166" cy="152" r="17" fill="#fff" stroke="#14396b" stroke-width="2.5"/><g transform="translate(166 152)"><path d="M-9 -6H-1V8H-9ZM1 -6H9V8H1Z" fill="#2563eb"/><path d="M-1 -6H1V8H-1Z" fill="#14396b"/></g></g></svg>','<svg viewBox="0 0 200 200" role="img" aria-label="Cabeza con cerebro, globos de diálogo, una balanza y un camino que se bifurca para decidir"><rect width="200" height="200" rx="18" fill="#c9b8f2"/><circle cx="100" cy="100" r="86" fill="#fff" fill-opacity=".4"/><g transform="translate(96 110) scale(.6) translate(-100 -112)"><path d="M66 178V152C46 142 34 122 34 100C34 62 64 34 100 34C136 34 160 56 160 86C160 94 162 98 166 106L157 110L162 119L155 125C157 136 149 144 139 146L128 148V178Z" fill="#1c2541"/></g><g transform="translate(94 98) scale(0.8)"><circle cx="-20" cy="-6" r="19" fill="#8f84f5"/><circle cx="2" cy="-16" r="20" fill="#8f84f5"/><circle cx="22" cy="-6" r="19" fill="#8f84f5"/><circle cx="-14" cy="12" r="18" fill="#8f84f5"/><circle cx="10" cy="14" r="19" fill="#8f84f5"/><circle cx="26" cy="14" r="13" fill="#8f84f5"/><path d="M2 -34V28M-22 -8C-12 -6 -8 2 -14 10M24 -6C14 -4 10 4 16 12M-8 -22C-2 -18 0 -12 -6 -8" fill="none" stroke="#4a3fb5" stroke-width="2.5" stroke-linecap="round"/></g><g><circle cx="36" cy="40" r="17" fill="#fff" stroke="#14396b" stroke-width="2.5"/><g transform="translate(36 40)"><path d="M-9 -8H9V3H2L-3 8V3H-9Z" fill="#d33fa8"/><path d="M-5 -4H5M-5 0H2" stroke="#fff" stroke-width="2" stroke-linecap="round"/></g></g><g><circle cx="168" cy="44" r="17" fill="#fff" stroke="#14396b" stroke-width="2.5"/><g transform="translate(168 44)"><path d="M0 -9V8M-8 8H8M-9 -5H9" stroke="#14396b" stroke-width="2.5" stroke-linecap="round"/><path d="M-9 -5L-12 2H-6ZM9 -5L6 2H12Z" fill="#e0a31b"/></g></g><g><circle cx="34" cy="148" r="17" fill="#fff" stroke="#14396b" stroke-width="2.5"/><g transform="translate(34 148)"><path d="M-8 0H-2C2 0 2 -6 8 -6M-2 0C2 0 2 6 8 6" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round"/><circle cx="-8" cy="0" r="2.5" fill="#2563eb"/><circle cx="8" cy="-6" r="2.5" fill="#2e8b4a"/><circle cx="8" cy="6" r="2.5" fill="#c93a55"/></g></g><g><circle cx="168" cy="146" r="17" fill="#fff" stroke="#14396b" stroke-width="2.5"/><g transform="translate(168 146)"><path d="M0 -9L8 -6V1C8 6 4 9 0 11C-4 9 -8 6 -8 1V-6Z" fill="#2e8b4a"/><path d="M-4 1L-1 4L5 -3" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></g></g><g><circle cx="100" cy="178" r="15" fill="#fff" stroke="#14396b" stroke-width="2.5"/><g transform="translate(100 178)"><circle cy="-2" r="7" fill="#f5b81c"/><rect x="-4" y="5" width="8" height="5" rx="1.5" fill="#6b6f80"/></g></g></svg>','<svg viewBox="0 0 200 200" role="img" aria-label="Persona sobre una pila de libros con una lupa frente a un cerebro, con un trofeo y una bandera"><rect width="200" height="200" rx="18" fill="#33b3a6"/><circle cx="14" cy="14" r="2" fill="#ffffff" fill-opacity=".35"/><circle cx="38" cy="14" r="2" fill="#ffffff" fill-opacity=".35"/><circle cx="62" cy="14" r="2" fill="#ffffff" fill-opacity=".35"/><circle cx="86" cy="14" r="2" fill="#ffffff" fill-opacity=".35"/><circle cx="110" cy="14" r="2" fill="#ffffff" fill-opacity=".35"/><circle cx="134" cy="14" r="2" fill="#ffffff" fill-opacity=".35"/><circle cx="158" cy="14" r="2" fill="#ffffff" fill-opacity=".35"/><circle cx="182" cy="14" r="2" fill="#ffffff" fill-opacity=".35"/><circle cx="26" cy="38" r="2" fill="#ffffff" fill-opacity=".35"/><circle cx="50" cy="38" r="2" fill="#ffffff" fill-opacity=".35"/><circle cx="74" cy="38" r="2" fill="#ffffff" fill-opacity=".35"/><circle cx="98" cy="38" r="2" fill="#ffffff" fill-opacity=".35"/><circle cx="122" cy="38" r="2" fill="#ffffff" fill-opacity=".35"/><circle cx="146" cy="38" r="2" fill="#ffffff" fill-opacity=".35"/><circle cx="170" cy="38" r="2" fill="#ffffff" fill-opacity=".35"/><circle cx="194" cy="38" r="2" fill="#ffffff" fill-opacity=".35"/><circle cx="14" cy="62" r="2" fill="#ffffff" fill-opacity=".35"/><circle cx="38" cy="62" r="2" fill="#ffffff" fill-opacity=".35"/><circle cx="62" cy="62" r="2" fill="#ffffff" fill-opacity=".35"/><circle cx="86" cy="62" r="2" fill="#ffffff" fill-opacity=".35"/><circle cx="110" cy="62" r="2" fill="#ffffff" fill-opacity=".35"/><circle cx="134" cy="62" r="2" fill="#ffffff" fill-opacity=".35"/><circle cx="158" cy="62" r="2" fill="#ffffff" fill-opacity=".35"/><circle cx="182" cy="62" r="2" fill="#ffffff" fill-opacity=".35"/><circle cx="26" cy="86" r="2" fill="#ffffff" fill-opacity=".35"/><circle cx="50" cy="86" r="2" fill="#ffffff" fill-opacity=".35"/><circle cx="74" cy="86" r="2" fill="#ffffff" fill-opacity=".35"/><circle cx="98" cy="86" r="2" fill="#ffffff" fill-opacity=".35"/><circle cx="122" cy="86" r="2" fill="#ffffff" fill-opacity=".35"/><circle cx="146" cy="86" r="2" fill="#ffffff" fill-opacity=".35"/><circle cx="170" cy="86" r="2" fill="#ffffff" fill-opacity=".35"/><circle cx="194" cy="86" r="2" fill="#ffffff" fill-opacity=".35"/><circle cx="14" cy="110" r="2" fill="#ffffff" fill-opacity=".35"/><circle cx="38" cy="110" r="2" fill="#ffffff" fill-opacity=".35"/><circle cx="62" cy="110" r="2" fill="#ffffff" fill-opacity=".35"/><circle cx="86" cy="110" r="2" fill="#ffffff" fill-opacity=".35"/><circle cx="110" cy="110" r="2" fill="#ffffff" fill-opacity=".35"/><circle cx="134" cy="110" r="2" fill="#ffffff" fill-opacity=".35"/><circle cx="158" cy="110" r="2" fill="#ffffff" fill-opacity=".35"/><circle cx="182" cy="110" r="2" fill="#ffffff" fill-opacity=".35"/><circle cx="26" cy="134" r="2" fill="#ffffff" fill-opacity=".35"/><circle cx="50" cy="134" r="2" fill="#ffffff" fill-opacity=".35"/><circle cx="74" cy="134" r="2" fill="#ffffff" fill-opacity=".35"/><circle cx="98" cy="134" r="2" fill="#ffffff" fill-opacity=".35"/><circle cx="122" cy="134" r="2" fill="#ffffff" fill-opacity=".35"/><circle cx="146" cy="134" r="2" fill="#ffffff" fill-opacity=".35"/><circle cx="170" cy="134" r="2" fill="#ffffff" fill-opacity=".35"/><circle cx="194" cy="134" r="2" fill="#ffffff" fill-opacity=".35"/><circle cx="14" cy="158" r="2" fill="#ffffff" fill-opacity=".35"/><circle cx="38" cy="158" r="2" fill="#ffffff" fill-opacity=".35"/><circle cx="62" cy="158" r="2" fill="#ffffff" fill-opacity=".35"/><circle cx="86" cy="158" r="2" fill="#ffffff" fill-opacity=".35"/><circle cx="110" cy="158" r="2" fill="#ffffff" fill-opacity=".35"/><circle cx="134" cy="158" r="2" fill="#ffffff" fill-opacity=".35"/><circle cx="158" cy="158" r="2" fill="#ffffff" fill-opacity=".35"/><circle cx="182" cy="158" r="2" fill="#ffffff" fill-opacity=".35"/><circle cx="26" cy="182" r="2" fill="#ffffff" fill-opacity=".35"/><circle cx="50" cy="182" r="2" fill="#ffffff" fill-opacity=".35"/><circle cx="74" cy="182" r="2" fill="#ffffff" fill-opacity=".35"/><circle cx="98" cy="182" r="2" fill="#ffffff" fill-opacity=".35"/><circle cx="122" cy="182" r="2" fill="#ffffff" fill-opacity=".35"/><circle cx="146" cy="182" r="2" fill="#ffffff" fill-opacity=".35"/><circle cx="170" cy="182" r="2" fill="#ffffff" fill-opacity=".35"/><circle cx="194" cy="182" r="2" fill="#ffffff" fill-opacity=".35"/><g transform="translate(100 84) scale(1.5)"><circle cx="-20" cy="-6" r="19" fill="#ffd166"/><circle cx="2" cy="-16" r="20" fill="#ffd166"/><circle cx="22" cy="-6" r="19" fill="#ffd166"/><circle cx="-14" cy="12" r="18" fill="#ffd166"/><circle cx="10" cy="14" r="19" fill="#ffd166"/><circle cx="26" cy="14" r="13" fill="#ffd166"/><path d="M2 -34V28M-22 -8C-12 -6 -8 2 -14 10M24 -6C14 -4 10 4 16 12M-8 -22C-2 -18 0 -12 -6 -8" fill="none" stroke="#d08a1d" stroke-width="2.5" stroke-linecap="round"/></g><rect x="87" y="132" width="11" height="34" rx="4" fill="#1c2541"/><rect x="102" y="132" width="11" height="34" rx="4" fill="#1c2541"/><path d="M80 132 C78 100 90 90 100 90 L110 90 L120 132 Z" fill="#2563eb"/><rect x="80" y="118" width="40" height="14" rx="5" fill="#1c2541"/><circle cx="100" cy="78" r="12" fill="#f1b98a"/><path d="M88 76 A12 12 0 0 1 112 76 C108 64 92 64 88 76 Z" fill="#3a2a20"/><path d="M112 108L128 88" stroke="#f1b98a" stroke-width="8" stroke-linecap="round"/><circle cx="133" cy="78" r="14" fill="#fff" fill-opacity=".55" stroke="#c93a55" stroke-width="5"/><rect x="50" y="166" width="100" height="12" rx="3" fill="#e0a31b"/><rect x="58" y="178" width="84" height="10" rx="3" fill="#c93a55"/><rect x="50" y="188" width="100" height="8" rx="3" fill="#2563eb"/><g><circle cx="32" cy="38" r="17" fill="#fff" stroke="#14396b" stroke-width="2.5"/><g transform="translate(32 38)"><path d="M-6 -8H6V-2C6 3 3 5 0 5C-3 5 -6 3 -6 -2Z" fill="#e0a31b"/><rect x="-1.5" y="5" width="3" height="4" fill="#e0a31b"/><rect x="-5" y="9" width="10" height="2.5" rx="1" fill="#b57f00"/></g></g><g><circle cx="168" cy="38" r="17" fill="#fff" stroke="#14396b" stroke-width="2.5"/><g transform="translate(168 38)"><path d="M-6 -9V10" stroke="#14396b" stroke-width="2.5" stroke-linecap="round"/><path d="M-5 -8H8L5 -3L8 2H-5Z" fill="#c93a55"/></g></g><g><circle cx="28" cy="118" r="17" fill="#fff" stroke="#14396b" stroke-width="2.5"/><g transform="translate(28 118)"><path d="M0 -9L8 -6V1C8 6 4 9 0 11C-4 9 -8 6 -8 1V-6Z" fill="#2e8b4a"/><path d="M-4 1L-1 4L5 -3" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></g></g><g><circle cx="172" cy="122" r="17" fill="#fff" stroke="#14396b" stroke-width="2.5"/><g transform="translate(172 122)"><rect x="-7" y="-9" width="14" height="18" rx="2" fill="#2e8b4a"/><path d="M-4 -3H4M-4 1H4M-4 5H1" stroke="#fff" stroke-width="2" stroke-linecap="round"/></g></g></svg>'];
+function ill(i){return '<div class="ill">'+IMG[i]+'</div>'}
+function okm(i,t){return '<div class="fb ok">✔ '+t+' (+'+S.res[i]+' puntos)</div>'}
+function selCheck(i,p,intro,rows,why){
+ p.innerHTML=intro+rows.map(function(r,k){return '<div class="row"><span class="sm">'+r[0]+'</span><select class="sel" id="s'+i+'_'+k+'" aria-label="Respuesta '+(k+1)+'"><option value="-1">Elige…</option>'+r[2].map(function(o,j){return '<option value="'+j+'">'+o+'</option>'}).join("")+'</select><span id="m'+i+'_'+k+'" aria-hidden="true"></span></div>'}).join("")+'<button class="btn blue" id="ck'+i+'" style="padding:8px 24px">Comprobar</button><div id="f'+i+'" aria-live="polite" style="margin-top:8px"></div>';
+ if(S.ok[i]){rows.forEach(function(r,k){$("s"+i+"_"+k).value=r[1];$("s"+i+"_"+k).disabled=true;$("m"+i+"_"+k).textContent="✅"});$("ck"+i).disabled=true;$("f"+i).innerHTML=okm(i,why);return}
+ $("ck"+i).onclick=function(){
+  var bad=0,emp=0;
+  rows.forEach(function(r,k){var v=$("s"+i+"_"+k).value,m=$("m"+i+"_"+k);if(v==="-1"){emp++;m.textContent="";return}if(+v===r[1])m.textContent="✅";else{m.textContent="❌";bad++}});
+  if(emp){$("f"+i).innerHTML='<div class="fb info">Responde todos los puntos para comprobar.</div>';return}
+  if(bad){S.att[i]++;$("f"+i).innerHTML='<div class="fb bad">✖ Hay '+bad+' respuesta(s) por corregir (❌). Revisa la pestaña Aprende e intenta de nuevo.</div>';return}
+  done(i,S.att[i]===0);rows.forEach(function(r,k){$("s"+i+"_"+k).disabled=true});$("ck"+i).disabled=true;$("f"+i).innerHTML=okm(i,why)};
+}
+function p1(p,i){
+ var qs=["¿Quién lo publicó y desde qué canal oficial?","¿Cuántas personas lo han compartido ya?","¿Qué documento o evidencia lo respalda?","¿Cómo lo reenvío más rápido a mi grupo?","¿Qué supone el mensaje al pedirme confirmar por un enlace?","¿Cuántos amigos míos lo creen?"],good=[0,2,4];
+ p.innerHTML='<div class="box"><b>Diagnóstico</b><p class="sm muted">Cuando te llega una noticia por redes, normalmente…</p>'+radios("pre",pre)+'</div><div class="box"><b>Caso retador</b><div class="wa" style="margin:8px 0"><b>Cadena de mensajes</b><div class="msg">Aviso: perderás tu cupo del próximo semestre si no confirmas tus datos en este enlace en 24 horas. Compártelo con tu grupo.</div></div><p class="sm"><b>Antes de investigar, elige las 3 preguntas más útiles:</b></p>'+qs.map(function(q,k){return '<label class="opt"><input type="checkbox" value="'+k+'"> '+q+'</label>'}).join("")+'<button class="btn blue" id="ck0" style="padding:8px 24px">Comprobar</button><div id="f0" aria-live="polite" style="margin-top:8px"></div></div>';
+ if(S.pre!=="")document.querySelector("input[name=pre][value='"+S.pre+"']").checked=true;
+ p.onchange=function(e){if(e.target.name==="pre")S.pre=e.target.value};
+ var bx=[].slice.call(p.querySelectorAll("input[type=checkbox]"));
+ var why="Preguntar por la fuente oficial, la evidencia y los supuestos es cuestionar con método. La popularidad y la rapidez no aclaran si algo es verdad.";
+ if(S.ok[i]){bx.forEach(function(x){x.disabled=true;x.checked=good.indexOf(+x.value)>-1});$("ck0").disabled=true;$("f0").innerHTML=okm(i,why);return}
+ $("ck0").onclick=function(){
+  var sel=bx.filter(function(x){return x.checked}).map(function(x){return +x.value});
+  if(sel.length!==3){$("f0").innerHTML='<div class="fb info">Elige exactamente 3 preguntas.</div>';return}
+  if(sel.every(function(v){return good.indexOf(v)>-1})){done(i,S.att[i]===0);bx.forEach(function(x){x.disabled=true});$("ck0").disabled=true;$("f0").innerHTML=okm(i,why)}
+  else{S.att[i]++;$("f0").innerHTML='<div class="fb bad">✖ Alguna pregunta no ayuda a saber si el aviso es cierto: popularidad y rapidez no son evidencia. Intenta de nuevo.</div>'}};
+}
+function p2(p,i){
+ var o=["Premisa","Conclusión","Opinión"];
+ selCheck(i,p,'<p class="sm">Fragmento de un discurso académico sobre exámenes a las 6 a. m. Clasifica cada enunciado y luego identifica la falacia.</p>',[
+  ["«Un estudio indica que dormir poco reduce la atención.»",0,o],
+  ["«Muchos estudiantes viajan más de una hora para llegar a la universidad.»",0,o],
+  ["«Por lo tanto, deberían evitarse los exámenes a las 6 a. m.»",1,o],
+  ["«Madrugar es de perezosos.»",2,o],
+  ["«No hagas caso a Laura: ni terminó el semestre pasado.» ¿Qué falacia es?",0,["Ad hominem","Falso dilema","Ad populum"]]],
+  "Separaste premisas, conclusión y opinión, y reconociste que atacar a Laura no responde a su argumento (ad hominem).");
+}
+function p3(p,i){
+ var A="Usar como fuente principal",B="Usar con cautela",C="Descartar";
+ selCheck(i,p,'<p class="sm"><b>Laboratorio de fuentes</b> sobre «sueño y rendimiento académico». Aplica CRAAP y decide qué hacer con cada una.</p>',[
+  ["<b>Fuente A:</b> artículo en revista científica indexada (2023); autores con afiliación, DOI, método y referencias.",1,[C,A,B]],
+  ["<b>Fuente B:</b> nota de un periódico (2024) con autor y fecha; resume un estudio y enlaza el original.",2,[A,C,B]],
+  ["<b>Fuente C:</b> publicación viral sin autor ni fecha: «los científicos dicen…», pide compartir.",0,[C,B,A]]],
+  "Lo ideal: la fuente académica como base, la prensa como pista (ve al estudio original) y descartar lo anónimo y sin evidencia.");
+}
+var BR=[
+{q:"Tu grupo entrega mañana un trabajo sobre el sueño y el rendimiento. Un compañero pega en el chat: «Dormir 4 horas es suficiente», sin fuente. ¿Qué haces?",o:[["Lo incluyo tal cual: lo dijo un compañero del grupo.","El docente pide la fuente y el grupo pierde puntos: un dato sin fuente no se sostiene.",0],["Pido la fuente y lo busco en las bases académicas de la biblioteca.","Encuentras una revisión de 2023: dormir poco reduce la atención y la memoria. Tu decisión ya tiene evidencia.",1],["Lo elimino sin revisar nada.","Evitas el error, pero pierdes la oportunidad de comprobar qué dice la evidencia.",0]]},
+{q:"Tu compañero insiste en su dato. ¿Cómo argumentas?",o:[["«Mi dato es mejor porque yo lo creo.»","Es una opinión sin datos ni garantía.",0],["«Propongo usar la revisión de 2023 (afirmación) porque reúne varios estudios (datos); las revisiones científicas son más confiables que un mensaje sin fuente (garantía). Si aparece mejor evidencia, lo ajustamos (salvedad).»","Argumento completo de Toulmin: afirmación, datos, garantía y salvedad.",1],["«Hagamos lo que diga la mayoría.»","Es efecto de arrastre: la mayoría no es evidencia.",0]]}];
+var TB=[["<b>Afirmación</b> (lo que defiendes)",1,["Usaremos el dato de mi compañero porque es más corto.","Usaremos la revisión de 2023 en el trabajo.","No citaremos ninguna fuente."]],
+["<b>Datos</b> (la evidencia)",0,["La revisión reúne varios estudios sobre sueño y atención.","Mi compañero lo dijo con mucha seguridad.","Muchos compañeros lo comparten en el chat."]],
+["<b>Garantía</b> (por qué los datos apoyan la afirmación)",2,["Lo más popular suele ser lo correcto.","Lo que dice un compañero siempre es válido.","Las revisiones científicas son más confiables que un mensaje sin fuente."]],
+["<b>Salvedad</b> (cuándo no aplicaría)",1,["Esto no se puede discutir nunca.","Salvo que aparezca evidencia más reciente que la contradiga.","Da igual si existen otros datos."]]];
+function p4(p,i,st){
+ st=st||0;
+ if(S.ok[i]){p.innerHTML=okm(i,"Escenario resuelto: decidiste con evidencia y argumentaste con el modelo de Toulmin.");return}
+ if(st===1){selCheck(i,p,'<div class="box"><b>Escenario ramificado · paso 2 de 2</b><p class="sm" style="margin-top:4px">Tu compañero insiste en su dato. Construye tu argumento con el modelo de Toulmin: elige la mejor pieza para cada parte.</p></div>',TB,"Construiste un argumento completo con afirmación, datos, garantía y salvedad.");return}
+ var b=BR[st];
+ p.innerHTML='<div class="box"><b>Escenario ramificado · paso '+(st+1)+' de 2</b><p style="margin:6px 0">'+b.q+'</p>'+b.o.map(function(o,k){return '<button class="opt" style="width:100%;text-align:left;background:var(--card)" data-k="'+k+'">'+o[0]+'</button>'}).join("")+'<div id="bf" aria-live="polite" style="margin-top:8px"></div></div>';
+ [].forEach.call(p.querySelectorAll("[data-k]"),function(x){x.onclick=function(){
+  var o=b.o[+x.dataset.k];
+  if(!o[2]){S.att[i]++;$("bf").innerHTML='<div class="fb bad">✖ '+o[1]+' Prueba otra opción.</div>';return}
+  if(st===0){$("bf").innerHTML='<div class="fb ok">✔ '+o[1]+'</div><button class="btn blue" id="bn" style="margin-top:8px">Continuar →</button>';$("bn").onclick=function(){p4(p,i,1)}}
+  else{done(i,S.att[i]===0);p.innerHTML='<div class="fb ok">✔ '+o[1]+' (+'+S.res[i]+' puntos)</div>'}}});
+}
+var PUB=[["Bienestar Universitario","🧘","Recordatorio: la inscripción a los talleres de manejo del estrés cierra el viernes. Inscríbete desde la página institucional.","♥ 420 · 💬 18"],
+["Estudiantes Unidos","🚨","¡URGENTE! Todos saben que la universidad eliminará la beca de alimentación el próximo mes. Quien dude es porque trabaja para la administración. O compartes esto en 10 grupos hoy o pierdes tu cupo.","♥ 5,1 mil · 💬 1,2 mil"],
+["Biblioteca Central","📚","Horario de la sala de estudio en semana de parciales: de 7 a. m. a 10 p. m. Los cambios se anuncian en el catálogo y en el aviso de la entrada.","♥ 310 · 💬 9"]];
+var SUS=1,PTS=[3,3,4];
+var FL=[["Está publicada en una red social.",0],["Presiona con urgencia y amenaza con perder el cupo.",1],["Habla de la beca de alimentación.",0],["Usa «todos saben» como única prueba (ad populum).",1],["Menciona a la universidad y a sus estudiantes.",0],["Está escrita en español y dirigida a estudiantes.",0],["Ataca a quien duda en lugar de dar pruebas (ad hominem).",1]];
+var CH=["La página web oficial y el correo institucional de la oficina responsable (Bienestar o Registro).","Los comentarios de la misma publicación.","El grupo de WhatsApp donde me llegó.","Preguntarle a quien la compartió."];
+S.rf={s:[0,0,0],a:[0,0,0],p:[0,0,0],m:["","",""],sel:-1,fl:[],ch:-1,tx:""};
+function p5(p,i){
+ var R=S.rf;
+ function gain(k){R.s[k]=1;R.p[k]=R.a[k]?Math.floor(PTS[k]/2):PTS[k];S.res[4]=R.p[0]+R.p[1]+R.p[2];if(R.s[0]&&R.s[1]&&R.s[2])S.ok[4]=1;hdr(4);p5(p,i)}
+ var h='<div class="box irow" style="background:var(--sec)">'+ill(4)+'<div><p><b>Misión:</b> se muestran 3 publicaciones sobre la vida universitaria. Solo una contiene información falsa con falacias lógicas.</p><p class="sm" style="margin-top:4px">Publicaciones de ejemplo creadas para este reto. Paso 1: selecciona la sospechosa. Paso 2: marca 3 red flags. Paso 3: elige qué canal oficial usarías para verificarla.</p></div></div>';
+ h+='<b>1. Selecciona la publicación sospechosa</b><div class="posts">'+PUB.map(function(x,k){return '<button class="post" data-p="'+k+'" aria-pressed="'+(R.sel===k)+'"'+(R.s[0]?" disabled":"")+'><div class="h">'+(k+1)+'. '+x[0]+'</div><div class="img" aria-hidden="true">'+x[1]+'</div><p>'+x[2]+'</p><div class="m">'+x[3]+'</div></button>'}).join("")+'</div>';
+ h+=R.s[0]?'<div class="fb ok">✔ Correcto: la publicación 2 mezcla presión, falacias y ninguna fuente. (+'+R.p[0]+' puntos)</div>':'<div><button class="btn blue" id="r0" style="padding:8px 24px">Comprobar</button></div><div aria-live="polite">'+R.m[0]+'</div>';
+ if(R.s[0]){
+  h+='<div class="box"><b>2. Marca las 3 marcas de duda (red flags)</b><p class="sm muted">Elige exactamente 3.</p>'+FL.map(function(f,k){return '<label class="opt"><input type="checkbox" name="fl" value="'+k+'"'+(R.fl.indexOf(k)>-1?" checked":"")+(R.s[1]?" disabled":"")+'> '+f[0]+'</label>'}).join("")+(R.s[1]?'<div class="fb ok">✔ Correcto. Las 3 marcas de duda eran: la presión de urgencia, «todos saben» como única prueba (ad populum) y el ataque a quien duda (ad hominem). (+'+R.p[1]+' puntos)</div>':'<button class="btn blue" id="r1" style="padding:8px 24px">Comprobar</button><div aria-live="polite">'+R.m[1]+'</div>')+'</div>'}
+ if(R.s[1]){
+  h+='<div class="box"><b>3. Elige qué canal oficial usarías para verificarla</b>'+CH.map(function(c,k){return '<label class="opt"><input type="radio" name="ch" value="'+k+'"'+(R.ch===k?" checked":"")+(R.s[2]?" disabled":"")+'> '+c+'</label>'}).join("")+(R.s[2]?'<div class="fb ok" style="margin-top:8px">✔ Correcto: un canal oficial permite contrastar con la fuente original y no depende de la popularidad. (+'+R.p[2]+' puntos)</div>':'<button class="btn blue" id="r2" style="padding:8px 24px;margin-top:8px">Comprobar</button><div aria-live="polite">'+R.m[2]+'</div>')+'</div>'}
+ if(S.ok[4])h+='<div class="win">🏆 <b>¡Reto final superado!</b> Obtuviste '+S.res[4]+' de 10 puntos.</div>';
+ p.innerHTML=h;
+ [].forEach.call(p.querySelectorAll("[data-p]"),function(x){x.onclick=function(){R.sel=+x.dataset.p;p5(p,i)}});
+ p.onchange=function(e){
+  if(e.target.name==="fl")R.fl=[].filter.call(p.querySelectorAll("input[name=fl]"),function(x){return x.checked}).map(function(x){return +x.value});
+  if(e.target.name==="ch")R.ch=+e.target.value};
+  if($("r0"))$("r0").onclick=function(){
+  if(R.sel<0){R.m[0]='<div class="fb info">Selecciona una publicación.</div>';p5(p,i);return}
+  if(R.sel===SUS){gain(0)}else{R.a[0]++;R.m[0]='<div class="fb bad">✖ Incorrecto. Esa publicación no usa presión ni falacias. Fíjate en cuál promete o amenaza sin pruebas.</div>';p5(p,i)}};
+ if($("r1"))$("r1").onclick=function(){
+  if(R.fl.length!==3){R.m[1]='<div class="fb info">Marca exactamente 3 red flags.</div>';p5(p,i);return}
+  if(R.fl.every(function(k){return FL[k][1]})){gain(1)}else{R.a[1]++;R.m[1]='<div class="fb bad">✖ Alguna marca no es señal de duda: el tema, la red social o el público al que se dirige no bastan para sospechar. Revisa la presión y las falacias.</div>';p5(p,i)}};
+ if($("r2"))$("r2").onclick=function(){
+  if(R.ch<0){R.m[2]='<div class="fb info">Elige un canal para continuar.</div>';p5(p,i);return}
+  if(R.ch===0){gain(2)}else{R.a[2]++;R.m[2]='<div class="fb bad">✖ Ese canal depende de otras personas o de la popularidad. Elige uno que permita comprobar con la fuente oficial.</div>';p5(p,i)}};
+}
+function summary(){
+ var t=tot();$("sc2").textContent="Tu puntaje total: "+t+"/50 · "+(t>=40?"Pensador crítico 🧠":(t>=25?"En camino 🚶":"Sigue practicando 💪"));
+}
+for(var q=0;q<5;q++)rs(q);
+/* Pantalla final: autoevaluación */
+var AQ=["¿Ahora dudo más antes de compartir una noticia?","¿Ahora busco una segunda fuente para confirmar lo que leo?","¿Me siento más capaz de explicar por qué creo algo, con evidencia?"];
+$("aq").innerHTML=AQ.map(function(q,i){return '<div style="margin-bottom:8px"><p class="sm"><b>'+(i+1)+'.</b> '+q+'</p><div class="yn"><label class="opt"><input type="radio" name="a'+i+'" value="1"> Sí</label><label class="opt"><input type="radio" name="a'+i+'" value="0"> No</label></div></div>'}).join("");
+$("aev").onclick=function(){
+ var y=0,n=0;AQ.forEach(function(q,i){var r=document.querySelector("input[name=a"+i+"]:checked");if(r){n++;y+=+r.value}});
+ if(n<3){$("ares").innerHTML='<div class="fb info">Responde las 3 preguntas para ver tu resultado.</div>';return}
+ $("ares").innerHTML=y===3?'<div class="fb ok">🌟 Respondiste Sí en las 3. Tu actitud cambió: sigue practicando la regla de 30 segundos.</div>':y>=1?'<div class="fb info">👍 Respondiste Sí en '+y+' de 3. Vas por buen camino: repasa las habilidades donde dijiste No.</div>':'<div class="fb bad">Respondiste No en las 3. No pasa nada: vuelve a la pestaña Aprende de cada pantalla y practica de nuevo.</div>'};
+$("perfilBtn").onclick=function(){
+ $("pinfo").innerHTML="Pantalla actual: "+(S.cur>7?(S.cur===8?"Referencias":"Créditos"):(S.cur+1)+" de 8")+"<br>Puntaje: "+tot()+"/50<br>OVA: "+(S.done?"finalizado 🎓":"en curso");
+ $("perfil").hidden=false;$("pclose").focus()};
+$("pclose").onclick=function(){$("perfil").hidden=true};
+go(0);
+</script>
+</body>
+</html>
